@@ -1,0 +1,31 @@
+  let g:vdebug_options= {
+  \    "port" : 9000,
+  \    "server" : '',
+  \    "timeout" : 20,
+  \    "on_close" : 'detach',
+  \    "break_on_open" : 0,
+  \    "ide_key" : '',
+  \    "path_maps" : {"/var/www/labok": "/home/simon/dev/labok"},
+  \    "debug_window_level" : 0,
+  \    "debug_file_level" : 0,
+  \    "debug_file" : "",
+  \    "watch_window_style" : 'compact',
+  \    "marker_default" : '⬦',
+  \    "marker_closed_tree" : '▸',
+  \    "marker_open_tree" : '▾',
+  \    "continuous_mode" : 1,
+  \}
+
+  let g:vdebug_keymap = {
+  \    "run" : "<leader>vc",
+  \    "run_to_cursor" : "<leader>vt",
+  \    "step_over" : "<leader>vn",
+  \    "step_into" : "<leader>vs",
+  \    "step_out" : "<leader>vr",
+  \    "close" : "<leader>vq",
+  \    "detach" : "<leader>vQ",
+  \    "set_breakpoint" : "<leader>vb",
+  \    "get_context" : "<leader>vg",
+  \    "eval_under_cursor" : "<leader>ve",
+  \    "eval_visual" : "<leader>vE",
+  \}

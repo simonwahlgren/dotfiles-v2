@@ -1,0 +1,213 @@
+set $mod Mod4
+font pango:Terminus Bold 14px
+floating_modifier $mod
+hide_edge_borders smart
+new_window pixel 1
+focus_follows_mouse no
+
+# start a terminal
+bindsym $mod+Return exec termite
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start application launcher
+bindsym $mod+d exec rofi -show run
+
+# start bitwarden
+# bindsym $mod+b exec bwmenu
+
+# lock screen
+bindsym $mod+Ctrl+l exec i3lock -c 000000
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# split in horizontal/vertical orientation
+bindsym $mod+Shift+v split h
+bindsym $mod+Alt+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# jump to last active workspace
+bindsym $mod+e workspace back_and_forth
+
+# cycle through active workspaces
+bindsym $mod+Right workspace next
+bindsym $mod+Left workspace prev
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# bindsym $mod+Shift+p move workspace to output right
+
+# move focused window between monitors
+bindsym $mod+o move container to output right
+bindsym $mod+Shift+o move container to output left
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# change brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# toggle displays
+bindsym XF86Display exec --no-startup-id rofi-autorandr
+
+# audio controls
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# control spotify
+bindsym $mod+F1 exec playerctl play-pause
+bindsym $mod+F2 exec playerctl next
+bindsym $mod+F3 exec playerctl previous
+
+# screenshot
+bindsym --release Print exec imgur-screenshot
+
+# make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# show the first scratchpad window
+bindsym $mod+minus scratchpad show
+
+# create a scratchpad for spotify
+bindsym $mod+F12 [con_mark="spotify"] scratchpad show
+for_window [class="Spotify"] mark "spotify", move scratchpad
+# exec --no-startup-id spotify
+
+# create a scratchpad for slack
+for_window [instance="slack" window_type="browser-window"] move window to scratchpad
+for_window [class="Slack" floating] move container to workspace current
+bindsym $mod+F9 [instance="slack"] scratchpad show
+exec --no-startup-id slack
+
+# create a scratchpad for k9s
+# bindsym $mod+F11 [con_mark="k9s"] scratchpad show
+# for_window [class="k9s"] mark "k9s", move scratchpad
+# exec --no-startup-id termite --class "k9s" -e k9s
+
+# create a scratchpad for notes
+bindsym $mod+n [con_mark="notes"] scratchpad show
+for_window [class="notes"] mark "notes", move scratchpad
+exec --no-startup-id termite --class "notes"
+
+# create a scratchpad for dotfiles
+bindsym $mod+F10 [con_mark="dotfiles"] scratchpad show
+for_window [class="dotfiles"] mark "dotfiles", move scratchpad
+exec --no-startup-id termite --class "dotfiles"
+
+# create a generic scratchpad
+bindsym $mod+p [con_mark="scratchpad"] scratchpad show
+for_window [class="scratchpad"] mark "scratchpad", move scratchpad
+exec --no-startup-id termite --class "scratchpad"
+
+# window rules
+for_window [class="Display"] floating enable
+
+exec --no-startup-id devmon --no-gui
+exec --no-startup-id nm-applet
+exec --no-startup-id autocutsel -fork
+exec --no-startup-id autocutsel -s PRIMARY -fork
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id redshift
+exec --no-startup-id syndaemon -i 0.2s -d
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id lxsession
+exec --no-startup-id dunst
+exec --no-startup-id blueman-applet
+exec --no-startup-id pa-applet
+exec --no-startup-id psensor
+exec --no-startup-id insync start
+exec --no-startup-id xsetroot -solid "#000000"
+exec --no-startup-id unclutter
+exec --no-startup-id autorandr -c
+exec --no-startup-id networkd-notify
+
+exec_always --no-startup-id xset b off
+exec_always --no-startup-id xset r rate 180 80
+exec_always --no-startup-id xmodmap ~/.Xmodmap
+exec_always --no-startup-id autorandr -c
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym l resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+client.focused #1c1c1c #222222 #005faf #dddddd
+client.focused_inactive #222222 #1c1c1c #888888 #292d2e
+client.unfocused #000000 #000000 #888888 #292d2e
+client.urgent #222222 #222222 #af0000 #900000
+
+bar {
+    font pango:Terminus Bold 14px
+    status_command i3blocks
+    position top
+    separator_symbol "|"
+    colors {
+        background #000000
+        statusline #005faf
+        separator #333333
+
+        focused_workspace  #000000 #000000 #005faf
+        active_workspace   #000000 #000000 #808080
+        inactive_workspace #000000 #000000 #808080
+        urgent_workspace   #000000 #000000 #800080
+    }
+}

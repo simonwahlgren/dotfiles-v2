@@ -1,0 +1,12 @@
+.git
+*.egg
+*.pyc
+*.swp
+.cache
+.coverage
+.pytest_cache
+.mypy_cache
+.tox
+.venv
+__pycache__
+node_modules

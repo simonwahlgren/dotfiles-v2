@@ -1,0 +1,10 @@
+--recurse=yes
+--languages=python,java,rust
+--exclude=.git
+--exclude=.tox
+--exclude=.venv*
+--exclude=venv*
+--exclude=node_modules
+--exclude=.next
+--exclude=cypress
+--tag-relative=yes
