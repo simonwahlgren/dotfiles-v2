@@ -38,7 +38,7 @@
     trustExitCode = true
 
 [diff]
-    external = git-icdiff.sh
+    #external = git-icdiff.sh
     # Use better, descriptive initials (c, i, w) instead of a/b.
     mnemonicPrefix = true
     # Show renames/moves as such

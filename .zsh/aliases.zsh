@@ -28,13 +28,7 @@ alias pfind="yay -Qs"
 alias pclean="sudo pacman -Scc"
 alias pfile="pkgfile"
 
-eval "$(hub alias -s)"
-alias gb="hub browse"
 alias gs="git status -s"
-if command -v scmpuff >/dev/null 2>&1; then
-    eval "$(scmpuff init -s --aliases=false)"
-    alias gs='scmpuff_status'
-fi
 alias gss="git status"
 alias glog="git log --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
 alias glogg="git log --graph --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"

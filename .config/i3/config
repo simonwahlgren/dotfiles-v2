@@ -18,7 +18,7 @@ bindsym $mod+d exec rofi -show run
 # bindsym $mod+b exec bwmenu
 
 # lock screen
-bindsym $mod+Ctrl+l exec i3lock -c 000000
+bindsym $mod+Ctrl+l exec i3lock -c 111111
 
 # change focus
 bindsym $mod+h focus left
@@ -111,7 +111,7 @@ bindsym $mod+F2 exec playerctl next
 bindsym $mod+F3 exec playerctl previous
 
 # screenshot
-bindsym --release Print exec imgur-screenshot
+bindsym --release Print exec imgur-screenshot --select
 
 # make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -122,7 +122,6 @@ bindsym $mod+minus scratchpad show
 # create a scratchpad for spotify
 bindsym $mod+F12 [con_mark="spotify"] scratchpad show
 for_window [class="Spotify"] mark "spotify", move scratchpad
-# exec --no-startup-id spotify
 
 # create a scratchpad for slack
 for_window [instance="slack" window_type="browser-window"] move window to scratchpad
@@ -165,17 +164,15 @@ exec --no-startup-id lxsession
 exec --no-startup-id dunst
 exec --no-startup-id blueman-applet
 exec --no-startup-id pa-applet
-exec --no-startup-id psensor
 exec --no-startup-id insync start
 exec --no-startup-id xsetroot -solid "#000000"
 exec --no-startup-id unclutter
-exec --no-startup-id autorandr -c
 exec --no-startup-id networkd-notify
 
 exec_always --no-startup-id xset b off
 exec_always --no-startup-id xset r rate 180 80
 exec_always --no-startup-id xmodmap ~/.Xmodmap
-exec_always --no-startup-id autorandr -c
+exec_always --no-startup-id autorandr --change --default default --force
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
