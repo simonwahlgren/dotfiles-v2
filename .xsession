@@ -1,4 +1,4 @@
-# allow root to access my X session
-#
-# used in udev rules
 xhost +si:localuser:root
+
+export SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass
+eval $(keychain --eval --quiet ~/.ssh/id_ed25519)

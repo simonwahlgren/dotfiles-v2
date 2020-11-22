@@ -28,6 +28,7 @@ Plug 'tpope/vim-surround'
 " adds various text objects to give you more targets to operate on
 Plug 'wellle/targets.vim'
 " collection of language packs
+let g:polyglot_disabled = ['python', 'markdown', 'php']
 Plug 'sheerun/vim-polyglot'
 " a git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
@@ -37,15 +38,17 @@ Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
 " make quickfick window editable
 Plug 'stefandtw/quickfix-reflector.vim'
-" provides the ability to sort in Vim using text objects and motions
-Plug 'christoomey/vim-sort-motion'
+" powerful grammar checker
+Plug 'rhysd/vim-grammarous'
+" dynamically show content of vim registers
+Plug 'gennaro-tedesco/nvim-peekup'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modern buffer manager
 Plug 'zefei/vim-wintabs'
-" shows a git diff in the gutter column) and stages/undoes hunks
+" shows a git diff in the gutter column and stages/undoes hunks
 Plug 'airblade/vim-gitgutter'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -59,9 +62,8 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'kana/vim-textobj-user'
   " text objects for entire buffer
   Plug 'kana/vim-textobj-entire'
-" allows you to visually select increasingly larger regions of text using
-" the same key combination
-Plug 'terryma/vim-expand-region'
+" provides the ability to sort in Vim using text objects and motions
+Plug 'christoomey/vim-sort-motion'
 " defines a new text object, based on indentation levels
 Plug 'michaeljsmith/vim-indent-object'
 " make the yanked region apparent
@@ -71,8 +73,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'majutsushi/tagbar'
 " pasting in Vim with indentation adjusted to destination context
 Plug 'sickill/vim-pasta'
-" overrides the delete operations to actually just delete and not affect the
-" current yank
+" overrides the delete operations to actually just delete and not affect the current yank
 Plug 'svermeulen/vim-cutlass'
 " provides operator motions to quickly replace text
 Plug 'svermeulen/vim-subversive'
@@ -80,8 +81,6 @@ Plug 'svermeulen/vim-subversive'
 Plug 'vim-scripts/camelcasemotion'
 " display number of search matches & index of a current match
 Plug 'google/vim-searchindex'
-" spot your cursor with simple search
-" Plug 't9md/vim-smalls'
 " a better (hopefully) :Join command
 Plug 'sk1418/Join'
 " highlighting word under cursor and all of its occurrences
@@ -95,57 +94,46 @@ Plug 'AndrewRadev/sideways.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto completion, linting & formatting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" dark powered asynchronous completion framework
-" 5.2 not working as of 2020-02-24
-" Plug 'Shougo/deoplete.nvim',                    { 'do': ':UpdateRemotePlugins', 'tag': '5.1' }
-Plug 'Shougo/deoplete.nvim',                    { 'do': ':UpdateRemotePlugins' }
-  " insert mode completion of words in adjacent tmux panes
-  Plug 'wellle/tmux-complete.vim'
-  " deoplete.nvim source for python
-  Plug 'deoplete-plugins/deoplete-jedi',        { 'for': 'python' }
-" code formatter
-Plug 'sbdchd/neoformat',                        { 'for': 'python' }
-" check syntax asynchronously and fix files
-Plug 'w0rp/ale',                                { 'for': ['python', 'markdown', 'java', 'javascript'] }
+" Intellisense engine for Vim8 & Neovim, full language server protocol support
+" as VSCode
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " This plugin uses FZF fuzzy finder in place of Coc's built-in CocList
+  " sources as well as Coc's jumps (definition, reference etc).
+  Plug 'antoinemadec/coc-fzf'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " text objects for Python
 Plug 'bps/vim-textobj-python',                  { 'for': 'python' }
-" run your tests with py.test
-Plug 'alfredodeza/pytest.vim',                  { 'for': 'python' }
 " enhanced version of the original Python syntax highlighting script
-Plug 'kh3phr3n/python-syntax',                  { 'for': 'python' }
+"Plug 'kh3phr3n/python-syntax',                  { 'for': 'python' }
+Plug 'vim-python/python-syntax',                { 'for': 'python' }
 " a nicer Python indentation style
 Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
 " extend the % motion and define g%, [%, and ]% motions
 Plug 'vim-scripts/python_match.vim',            { 'for': 'python' }
-" sort python imports
-Plug 'fisadev/vim-isort',                       { 'for': 'python' }
-" Plug 'psf/black',                               { 'for': 'python' }
-" let g:black_linelength = 100
-
 " jedi-vim is a VIM binding to the auto completion library Jedi
-Plug 'davidhalter/jedi-vim',                    { 'for': 'python', 'commit': 'a0207fadf9f165adac61f01abc07db0ae898cbe6' }
+" only used for :Pyimport feature
+Plug 'davidhalter/jedi-vim',                    { 'for': 'python' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Java
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'autozimu/LanguageClient-neovim',          { 'for': 'java', 'branch': 'next', 'do': 'bash install.sh' }
-Plug 'artur-shaik/vim-javacomplete2',           { 'for': 'java' }
+" Plug 'autozimu/LanguageClient-neovim',          { 'for': 'java', 'branch': 'next', 'do': 'bash install.sh' }
+" Plug 'artur-shaik/vim-javacomplete2',           { 'for': 'java' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Clojure
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " much simpler rainbow parentheses
-Plug 'junegunn/rainbow_parentheses.vim',        { 'for': 'clojure' }
+" Plug 'junegunn/rainbow_parentheses.vim',        { 'for': 'clojure' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => PHP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " multi-language DBGP debugger client
-Plug 'joonty/vdebug',                           { 'for': 'php', 'on':  'VdebugStart' }
+" Plug 'joonty/vdebug',                           { 'for': 'php', 'on':  'VdebugStart' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Markdown

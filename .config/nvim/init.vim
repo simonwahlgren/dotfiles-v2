@@ -27,7 +27,7 @@ set clipboard=unnamedplus
 " don't wrap lines
 set nowrap
 
-" turn backup off, since most stuff is in SVN, git et.c anyway...
+" turn backup off
 set nobackup
 set nowb
 set noswapfile
@@ -61,7 +61,7 @@ set nofoldenable
 " the first tab hit will complete as much as possible,
 " the second tab hit will provide a list,
 " the third and subsequent tabs will cycle through completion options
-"     so you can complete the file without further keys
+" so you can complete the file without further keys
 set wildmode=longest,list,full
 
 " enable mouse in all modes
@@ -89,6 +89,15 @@ if has('nvim-0.3.2') || has("patch-8.1.0360")
     set diffopt=filler,internal,algorithm:histogram,indent-heuristic
 endif
 
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Search
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -100,9 +109,6 @@ set incsearch
 
 " don't highlight matches
 set nohlsearch
-
-" case insensitive searches
-" set ignorecase smartcase
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Indentation
@@ -157,19 +163,20 @@ colorscheme darch
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Status line
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' ')
 endfunction
 
+" left aligned
 set statusline=
 set statusline +=%1*\ \%{toupper(mode())}\ \%*
 set statusline +=%2*%f
@@ -177,20 +184,12 @@ set statusline +=%2*%f
 " right aligned
 set statusline +=%=
 
-"display a warning if fileformat isnt unix
-set statusline +=%#warningmsg#
-set statusline +=%{&ff!='unix'?'['.&ff.']':''}
-set statusline+=%*
-
-"display a warning if file encoding isnt utf-8
-set statusline +=%#warningmsg#
-set statusline +=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-set statusline +=%*
-
+" column
 set statusline +=[%c]
 
+" current tag and coc integration
 set statusline +=%{exists('*tagbar#currenttag')?tagbar#currenttag('[%s]',''):''}
-set statusline +=%{exists('*ale#Escape')?'['.LinterStatus().']':''}
+set statusline +=%{'['.StatusDiagnostic().']'}
 set statusline +=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -212,10 +211,6 @@ vmap Q gqq
 " jump to matching bracket
 " nmap <tab> % " conflicts with C-I?
 nmap <leader><Tab> %
-
-" jump to next/previous start of method
-nmap [f [m
-nmap ]f ]m
 
 " fast newline insertion
 nmap <leader><BS> O<Esc>j
@@ -243,14 +238,12 @@ nmap ,z 1z=
 map Y y$
 
 " always paste on a new line
-nmap p :pu<cr>
-nmap P :pu!<cr>
-
+" nmap p :pu<cr>
+" nmap P :pu!<cr>
+" paste and jump to the first character of the yanked text
+" noremap p p`[
 " select last paste
 nnoremap gp `[v`]
-
-" paste and jump to the first character of the yanked text
-noremap p p`[
 
 " wipe all buffers
 nnoremap <leader>W :%bd<CR>
@@ -310,8 +303,8 @@ nnoremap d<space> df<space>
 nmap m<space> mf<space>
 
 " get diffs from buffer 1 (LOCAL) and 2 (REMOTE)
-nnoremap gdl :diffget 1<CR>
-nnoremap gdr :diffget 2<CR>
+nnoremap ,gl :diffget 1<CR>
+nnoremap ,gr :diffget 2<CR>
 
 " select and jump to tag
 nmap <C-]> g<C-]>
@@ -339,11 +332,6 @@ vnoremap gf <C-W>gf
 
 " paste with ctrl-v in insert mode
 inoremap <C-v> <C-r>+
-
-" tab / s-tab between options in popup menu
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 " make dot work over visual line selection
 xnoremap . :norm.<CR>
@@ -425,6 +413,9 @@ function! ToggleVExplorer()
 endfunction
 
 nnoremap <silent> F12 :call ToggleVExplorer()<CR>
+
+" wipe all registers
+command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto commands

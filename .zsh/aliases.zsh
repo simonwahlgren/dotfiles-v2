@@ -4,7 +4,6 @@ alias free="free -h -w -t"
 alias dmesg="dmesg -T"
 alias weather='curl http://wttr.in/Stockholm'
 alias jobs="jobs -p"
-# alias cat="bat"
 alias top="htop"
 alias resolvconf="sudo nvim /etc/resolv.conf"
 alias zcalc="zcalc -f"
@@ -14,6 +13,7 @@ alias bc="zcalc"
 alias grep="grep --colour=always"
 alias t="tree -C | less -r"
 alias pscpu="ps -eo pcpu,pid,user,args | sort -r -k1 | less"
+alias open="xdg-open"
 
 alias -g G=" | grep"
 alias -g R=" | rg"
@@ -28,15 +28,9 @@ alias pfind="yay -Qs"
 alias pclean="sudo pacman -Scc"
 alias pfile="pkgfile"
 
-eval "$(hub alias -s)"
-alias gb="hub browse"
 alias gs="git status -s"
-if command -v scmpuff >/dev/null 2>&1; then
-    eval "$(scmpuff init -s --aliases=false)"
-    alias gs='scmpuff_status'
-fi
 alias gss="git status"
-alias glog="git log --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
+alias glog="git log --no-merges --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short --all"
 alias glogg="git log --graph --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
 alias gf="git fetch"
 alias ga="git add"
@@ -53,6 +47,11 @@ alias gstp="git stash pop"
 alias gst="git stash"
 alias gcm="git checkout master"
 alias gdn="git diff --no-ext-diff"
+alias gcd="cd $(git root)"
+alias gb="git brv"
+
+alias ghb="gh repo view -w"
+alias ghpr="gh pr create -f"
 
 alias nano="nvim"
 alias vim="nvim"
@@ -71,11 +70,6 @@ function del(){ docker exec -ti $(dlc) bash }
 
 alias sys="sudo systemctl"
 alias sys_reload="sudo systemctl daemon-reload"
-
-alias m="python scripts/manage.py"
-alias runserver="python scripts/manage.py runserver_plus 0.0.0.0:8080"
-alias shell="python scripts/manage.py shell_plus --ipython"
-alias dbshell="python scripts/manage.py dbshell"
 
 alias venv="python -m venv .venv"
 alias pyclean="find . -regex '^.*\(__pycache__\|\.py[co]\)$' -delete"
@@ -96,9 +90,5 @@ alias ke="kubectl exec -ti"
 alias kd="kubectl describe pod"
 alias kx="kubectx"
 function kexec(){ pod=$1; shift; kubectl exec -it $pod -- $@; }
-
-alias k8s_minikube="kubectl config use-context minikube"
-alias az_staging="az aks get-credentials --resource-group ARA-K8S-STAGING --name ARA-K8S-STAGING"
-alias az_prod="az aks get-credentials --resource-group ARA-K8S-PROD --name ARA-K8S-PROD"
 
 alias stern="stern --tail 100"

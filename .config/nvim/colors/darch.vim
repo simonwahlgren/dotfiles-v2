@@ -279,3 +279,25 @@ hi link QuickScopePrimary Search
 " Sneak
 "--------------------------------
 call s:HL('SneakLabel', s:white, s:lightpurple, s:bold)
+
+"--------------------------------
+" Gitgutter
+"--------------------------------
+hi! link GitGutterAdd grey
+hi! link GitGutterChange grey
+hi! link GitGutterDelete grey
+
+"--------------------------------
+" Coc
+"--------------------------------
+hi! link CocErrorSign grey
+hi! link CocWarningSign grey
+hi! link CocInfoSign grey
+hi! link CocHintSign grey
+
+hi! link CocErrorFloat blue
+hi! link CocWarningFloat blue
+hi! link CocInfoFloat blue
+hi! link CocHintFloat blue
+
+hi! link SmallsJumpTarget purple

@@ -4,6 +4,7 @@ setlocal tabstop=4
 setlocal shiftwidth=4
 setlocal softtabstop=4
 setlocal expandtab
+setlocal textwidth=100
 
 " disable auto continuing of comments
 " setlocal fo-=c "Auto-wrap comments using textwidth, inserting the current comment leader automatically.

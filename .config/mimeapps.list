@@ -1,0 +1,20 @@
+[Added Associations]
+
+[Default Applications]
+application/pdf=/usr/share/applications/org.pwmt.zathura.desktop;
+image/bmp=/usr/share/applications/org.gnome.gThumb.desktop;
+image/gif=/usr/share/applications/org.gnome.gThumb.desktop;
+image/jpeg=/usr/share/applications/org.gnome.gThumb.desktop;
+image/png=/usr/share/applications/org.gnome.gThumb.desktop;
+image/svg+xml=/usr/share/applications/org.gnome.gThumb.desktop;
+image/tiff=/usr/share/applications/org.gnome.gThumb.desktop;
+image/webp=/usr/share/applications/org.gnome.gThumb.desktop;
+image/x-bmp=/usr/share/applications/org.gnome.gThumb.desktop;
+image/x-png=/usr/share/applications/org.gnome.gThumb.desktop;
+inode/directory=/usr/share/applications/pcmanfm.desktop;
+video/mp4=/usr/share/applications/mplayer.desktop;
+video/webm=/usr/share/applications/mplayer.desktop;
+x-scheme-handler/http=/usr/share/applications/vivaldi-stable.desktop;
+x-scheme-handler/https=/usr/share/applications/vivaldi-stable.desktop;
+x-scheme-handler/msteams=/usr/share/applications/teams.desktop;/usr/share/applications/teams.desktop;
+x-scheme-handler/slack=/usr/share/applications/slack.desktop;

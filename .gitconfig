@@ -6,6 +6,7 @@
 [alias]
     fix-conflicts = git diff --name-only --diff-filter=U | uniq  | xargs nvim
     prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+    wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
 
 [push]
     default = simple
@@ -68,3 +69,8 @@
 
 [rerere]
     enabled = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

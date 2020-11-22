@@ -16,6 +16,9 @@ let gitdir = system('echo $(git rev-parse --git-dir)/tags')
 let g:fzf_tags_command = 'ctags -f ' . gitdir
 
 let g:fzf_layout = { 'down': '~100%' }
+" Floating window mode
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'FZFNormal'],
  \ 'bg':      ['bg', 'FZFNormal'],
@@ -56,7 +59,7 @@ command! FZFMru call fzf#run({
 " :Rg! - start with preview
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --glob "!.git/" --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --hidden --glob "!.git" --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)

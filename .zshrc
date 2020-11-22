@@ -11,9 +11,11 @@ zplug "plugins/shrink-path", from:oh-my-zsh
 zplug "lib/spectrum", from:oh-my-zsh
 zplug "lib/key-bindings", from:oh-my-zsh, use:key-bindings.zsh
 zplug "rupa/z", use:z.sh
-zplug "andrewferrier/fzf-z"
 zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:2
-# zplug "Aloxaf/fzf-tab"
+zplug "wulfgarpro/history-sync", use:history-sync.plugin.zsh
+
+FORGIT_NO_ALIASES=1
+zplug "wfxr/forgit"
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -37,19 +39,23 @@ if [ -d $HOME/.zsh/plugins ]; then
   done
 fi
 
-HISTFILE=~/.zsh_histfile
+HISTFILE_NAME=.zsh_histfile
+HISTFILE="${HOME}/${HISTFILE_NAME}"
 HISTSIZE=100000
 SAVEHIST=100000
-HISTDUP=erase
 
-setopt extended_history       # record timestamp of command in HISTFILE
-setopt hist_ignore_dups       # ignore duplicated commands history list
-setopt hist_ignore_space      # ignore commands that start with space
-setopt hist_verify            # show command with history expansion to user before running it
-setopt inc_append_history     # add commands to HISTFILE in order of execution
-setopt share_history          # share command history data
-setopt hist_ignore_all_dups   # ignore duplicates in search history
-setopt hist_findnodups
+# hist-sync
+ZSH_HISTORY_FILE="${HISTFILE}"
+ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
+ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"
+
+setopt EXTENDED_HISTORY       # record timestamp of command in HISTFILE
+setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
+setopt HIST_IGNORE_SPACE      # ignore commands that start with space
+setopt HIST_VERIFY            # show command with history expansion to user before running it
+setopt INC_APPEND_HISTORY     # add commands to HISTFILE in order of execution
+setopt SHARE_HISTORY          # share command history data
+setopt HIST_IGNORE_ALL_DUPS   # ignore duplicates in search history
 
 bindkey -e
 

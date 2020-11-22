@@ -17,8 +17,7 @@
 .ipython/profile_default/ipython_config.py
 !/.ipython/*
 
-.bin/*
-!/.bin/*.sh
+!/.local/bin/
 
 .config/nvim/*/
 .config/nvim/.*
@@ -37,14 +36,19 @@
 .config/QtProject.conf
 .config/autostart/
 .config/awsaml/
-.config/chromium/
+.config/Insync/
+.config/MyMonero/
+.config/Slack/
 .config/chrome-remote-desktop/
+.config/chromium/
+.config/coc/
 .config/configstore/
 .config/dconf/
 .config/gcloud/
 .config/gcloud/
 .config/gtk-2.0/gtkfilechooser.ini
 .config/gtk-3.0/bookmarks
+.config/helm/
 .config/hub
 .config/hub
 .config/inkscape/
@@ -65,6 +69,7 @@
 .config/telepresence/
 .config/transmission-remote-gtk/
 .config/transmission/
+.config/vivaldi/
 .config/wireshark/
 .config/xfce4
 .config/zoomus.conf

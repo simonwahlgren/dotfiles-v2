@@ -1,0 +1,15 @@
+{
+   "diagnostic.checkCurrentLine": true,
+   "diagnostic.errorSign": ">",
+   "diagnostic.warningSign": ">",
+   "diagnostic.infoSign": ">",
+   "diagnostic.hintSign": ">",
+
+   "python.linting.enabled": true,
+   "python.linting.pylintEnabled": false,
+   "python.linting.flake8Enabled": true,
+   "python.formatting.provider": "black",
+   "python.sortImports.args": ["--profile", "black"],
+   "python.workspaceSymbols.enabled": false,
+   "python.venvFolders": [".venv"]
+}

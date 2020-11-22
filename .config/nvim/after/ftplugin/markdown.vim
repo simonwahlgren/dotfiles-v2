@@ -1,5 +1,5 @@
 setlocal formatoptions-=q " disable formatting of comments
-setlocal textwidth=80
+setlocal textwidth=100
 setlocal smartindent
 setlocal spell spelllang=en_us
 setlocal expandtab

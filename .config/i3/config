@@ -14,11 +14,8 @@ bindsym $mod+Shift+q kill
 # start application launcher
 bindsym $mod+d exec rofi -show run
 
-# start bitwarden
-# bindsym $mod+b exec bwmenu
-
 # lock screen
-bindsym $mod+Ctrl+l exec i3lock -c 000000
+bindsym $mod+Ctrl+l exec i3lock -c 111111
 
 # change focus
 bindsym $mod+h focus left
@@ -111,7 +108,7 @@ bindsym $mod+F2 exec playerctl next
 bindsym $mod+F3 exec playerctl previous
 
 # screenshot
-bindsym --release Print exec imgur-screenshot
+bindsym --release Print exec flameshot gui
 
 # make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -119,36 +116,40 @@ bindsym $mod+Shift+minus move scratchpad
 # show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
-# create a scratchpad for spotify
+# spotify
 bindsym $mod+F12 [con_mark="spotify"] scratchpad show
 for_window [class="Spotify"] mark "spotify", move scratchpad
-# exec --no-startup-id spotify
 
-# create a scratchpad for slack
+# slack
 for_window [instance="slack" window_type="browser-window"] move window to scratchpad
 for_window [class="Slack" floating] move container to workspace current
 bindsym $mod+F9 [instance="slack"] scratchpad show
 exec --no-startup-id slack
 
-# create a scratchpad for k9s
-# bindsym $mod+F11 [con_mark="k9s"] scratchpad show
-# for_window [class="k9s"] mark "k9s", move scratchpad
-# exec --no-startup-id termite --class "k9s" -e k9s
+# discord
+for_window [instance="discord"] move window to scratchpad
+for_window [class="discord" floating] move container to workspace current
+bindsym $mod+F11 [instance="discord"] scratchpad show
+exec --no-startup-id discord
 
-# create a scratchpad for notes
+# notes
 bindsym $mod+n [con_mark="notes"] scratchpad show
 for_window [class="notes"] mark "notes", move scratchpad
 exec --no-startup-id termite --class "notes"
 
-# create a scratchpad for dotfiles
+# dotfiles
 bindsym $mod+F10 [con_mark="dotfiles"] scratchpad show
 for_window [class="dotfiles"] mark "dotfiles", move scratchpad
 exec --no-startup-id termite --class "dotfiles"
 
-# create a generic scratchpad
+# generic scratchpad
 bindsym $mod+p [con_mark="scratchpad"] scratchpad show
 for_window [class="scratchpad"] mark "scratchpad", move scratchpad
 exec --no-startup-id termite --class "scratchpad"
+
+# bitwarden
+bindsym $mod+b [con_mark="bitwarden"] scratchpad show
+for_window [class="Bitwarden"] mark "bitwarden", move scratchpad
 
 # window rules
 for_window [class="Display"] floating enable
@@ -158,6 +159,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id autocutsel -fork
 exec --no-startup-id autocutsel -s PRIMARY -fork
 exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
 exec --no-startup-id redshift
 exec --no-startup-id syndaemon -i 0.2s -d
 exec --no-startup-id xfce4-power-manager
@@ -165,17 +167,17 @@ exec --no-startup-id lxsession
 exec --no-startup-id dunst
 exec --no-startup-id blueman-applet
 exec --no-startup-id pa-applet
-exec --no-startup-id psensor
 exec --no-startup-id insync start
 exec --no-startup-id xsetroot -solid "#000000"
 exec --no-startup-id unclutter
-exec --no-startup-id autorandr -c
 exec --no-startup-id networkd-notify
+exec --no-startup-id cadmus
+exec --no-startup-id parcellite
 
 exec_always --no-startup-id xset b off
 exec_always --no-startup-id xset r rate 180 80
 exec_always --no-startup-id xmodmap ~/.Xmodmap
-exec_always --no-startup-id autorandr -c
+exec_always --no-startup-id autorandr --change --default default --force
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

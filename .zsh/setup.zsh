@@ -16,8 +16,3 @@ stty -ixon -ixoff
 # to "fix" this lets run xmodmap everytime we start a terminal
 # (sleep 0.2 && xmodmap ~/.Xmodmap)
 setxkbmap -option caps:escape
-
-# setup scmpuff
-if command -v scmpuff >/dev/null 2>&1; then
-    eval "$(scmpuff init -s --aliases=false)"
-fi

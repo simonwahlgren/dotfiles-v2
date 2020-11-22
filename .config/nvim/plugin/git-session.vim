@@ -1,10 +1,6 @@
 function! FindProjectName()
   let s:name = getcwd()
-  " if !isdirectory(".git")
-    " let s:name = substitute(finddir(".git", ".;"), "/.git", "", "")
-  " end
   if s:name != ""
-    " let s:name = matchstr(s:name, ".*", strridx(s:name, "/") + 1)
     let s:name = substitute(s:name, "/", "", "g")
   end
   return s:name

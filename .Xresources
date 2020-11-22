@@ -1,0 +1,6 @@
+x11-ssh-askpass*font: xft:Terminus:size=14
+x11-ssh-askpass*background: #1c1c1c
+x11-ssh-askpass*foreground: #005fd7
+x11-ssh-askpass*shadowThickness: 0
+x11-ssh-askpass*borderWidth: 0
+x11-ssh-askpass*horizontalSpacing: 10
