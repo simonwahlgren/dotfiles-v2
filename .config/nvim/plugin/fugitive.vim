@@ -1,4 +1,3 @@
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gp :Gpush<cr>
-nnoremap <leader>gw :Gbrowse<cr>
+nnoremap <leader>gb :Git blame<cr>
+nnoremap <leader>gs :Git status<cr>
+nnoremap <leader>gw :Git browse<cr>

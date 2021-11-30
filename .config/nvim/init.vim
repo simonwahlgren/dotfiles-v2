@@ -4,6 +4,11 @@
 silent !mkdir -p ~/.vim/sessions/ > /dev/null 2>&1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+source ~/.config/nvim/plugins.vim
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Variables
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:python_host_prog = '/usr/bin/python2'
@@ -69,6 +74,9 @@ set mouse=a
 
 " spelling language
 set spell spelllang=en_us
+
+" thesaurus file
+set thesaurus+=~/.config/nvim/thesaurii.txt
 
 " preview substitutions as you type
 set inccommand=nosplit
@@ -157,6 +165,8 @@ set list!
 set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
 " color scheme
+" enable true color support
+" set termguicolors
 set background=dark
 colorscheme darch
 
@@ -207,6 +217,9 @@ map Ä }
 " reflow current line
 map Q gqq
 vmap Q gqq
+
+" open urls async
+map gx :call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>
 
 " jump to matching bracket
 " nmap <tab> % " conflicts with C-I?
@@ -287,6 +300,7 @@ nnoremap ,C c0
 nnoremap ,D d0
 nnoremap ,c c^
 nnoremap ,d d^
+nnoremap ,dd d^=='.
 
 " change word under cursor and dot repeat
 nnoremap c* *Ncgn
@@ -474,8 +488,3 @@ augroup nvimrc_group
      "  <Enter> in Insert mode.
      autocmd FileType * setlocal formatoptions-=r
 augroup END
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-source ~/.config/nvim/plugins.vim

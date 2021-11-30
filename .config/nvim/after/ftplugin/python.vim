@@ -26,4 +26,4 @@ else
     nnoremap <buffer> <silent> <leader>bd :g/pdb/d<cr>
 endif
 
-nnoremap <buffer> <silent> <leader>i :call system('isort -y '. expand('%:p'))<cr> <bar> :edit<cr>
+nnoremap <buffer> <silent> <leader>i :Sort<cr>

@@ -1,5 +1,3 @@
-export WORDCHARS='*?[]~=&;!#$%^(){}'
-
 # tab completion on hidden folders
 zstyle ':completion:*' special-dirs true
 

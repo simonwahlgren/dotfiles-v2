@@ -3,6 +3,22 @@
     email = simon.wahlgren@gmail.com
     name = Simon Wahlgren
 
+# the following rewrites are required when using multiple ssh keys. see
+# ~/.ssh/config for the matching config to load the correct key.
+#
+# debugging:
+#   GIT_TRACE=1 GIT_SSH_COMMAND="ssh -v" pip install git+ssh://github.com/business-ventures/dev-secrets-manager.git
+#
+# replace git@github.com:business-ventures with git@github-business-ventures:business-ventures
+# url is used when cloning a git repository
+[url "git@github-business-ventures:business-ventures"]
+    insteadOf = git@github.com:business-ventures
+
+# replace ssh://github.com/business-ventures with ssh://git@github-business-ventures/business-ventures
+# url is used when pip installing a package from github
+[url "ssh://git@github-business-ventures/business-ventures"]
+    insteadOf = ssh://github.com/business-ventures
+
 [alias]
     fix-conflicts = git diff --name-only --diff-filter=U | uniq  | xargs nvim
     prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
@@ -74,3 +90,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

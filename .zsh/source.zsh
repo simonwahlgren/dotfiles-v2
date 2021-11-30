@@ -27,3 +27,12 @@ if [ -f /opt/azure-cli/az.completion ]; then
     autoload bashcompinit && bashcompinit
     source '/opt/azure-cli/az.completion'
 fi
+
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
+fi
+
+# pyenv
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi

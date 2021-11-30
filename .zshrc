@@ -3,7 +3,7 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 
 source ~/.zplug/init.zsh
 zplug "mafredri/zsh-async"
-zplug "woefe/git-prompt.zsh"
+# zplug "woefe/git-prompt.zsh"
 # Load completion library for those sweet [tab] squares
 # zplug "lib/completion", from:oh-my-zsh
 zplug "plugins/shrink-path", from:oh-my-zsh

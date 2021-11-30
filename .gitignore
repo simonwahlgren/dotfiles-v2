@@ -30,6 +30,10 @@
 
 !.config/pulse/default.pa
 
+.config/Bitwarden/
+.config/Microsoft/
+.config/Tad/
+.config/discord/
 .config/Insomnia/
 .config/MellowPlayer
 .config/Postman/

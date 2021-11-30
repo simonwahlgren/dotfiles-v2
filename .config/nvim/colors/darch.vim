@@ -47,6 +47,7 @@ function! s:HL(group, fg, ...)
 endfunction
 
 let s:bold = 'bold,'
+let s:underline = 'underline,'
 
 " Color palette
 let s:black = ["#000000", 0]
@@ -290,14 +291,45 @@ hi! link GitGutterDelete grey
 "--------------------------------
 " Coc
 "--------------------------------
-hi! link CocErrorSign grey
-hi! link CocWarningSign grey
-hi! link CocInfoSign grey
-hi! link CocHintSign grey
+hi CocErrorSign ctermfg=238
+hi CocWarningSign ctermfg=238
+hi CocInfoSign ctermfg=238
+hi CocHintSign ctermfg=238
 
-hi! link CocErrorFloat blue
-hi! link CocWarningFloat blue
-hi! link CocInfoFloat blue
-hi! link CocHintFloat blue
+hi CocErrorFloat ctermfg=red
+hi CocWarningFloat ctermfg=red
+hi CocInfoFloat ctermfg=red
+hi CocHintFloat ctermfg=blue
 
-hi! link SmallsJumpTarget purple
+"--------------------------------
+" LSP
+"--------------------------------
+hi! link LspDiagnosticsDefaultHint blue
+hi! link LspDiagnosticsSignHint grey
+" LspDiagnosticsVirtualTextHint xxx links to LspDiagnosticsDefaultHint
+" LspDiagnosticsFloatingHint xxx links to LspDiagnosticsDefaultHint
+
+hi! link LspDiagnosticsDefaultError blue
+hi! link LspDiagnosticsSignError LspDiagnosticsSignHint
+" LspDiagnosticsVirtualTextError xxx links to LspDiagnosticsDefaultError
+" LspDiagnosticsFloatingError xxx links to LspDiagnosticsDefaultError
+
+hi! link LspDiagnosticsDefaultWarning blue
+hi! link LspDiagnosticsSignWarning LspDiagnosticsSignHint
+" LspDiagnosticsVirtualTextWarning xxx links to LspDiagnosticsDefaultWarning
+" LspDiagnosticsFloatingWarning xxx links to LspDiagnosticsDefaultWarning
+
+hi! link LspDiagnosticsDefaultInformation blue
+hi! link LspDiagnosticsSignInformation LspDiagnosticsSignHint
+" LspDiagnosticsVirtualTextInformation xxx links to LspDiagnosticsDefaultInformation
+" LspDiagnosticsFloatingInformation xxx links to LspDiagnosticsDefaultInformation
+
+call s:HL('LspDiagnosticsUnderlineError', s:white, s:grey)
+hi! link LspDiagnosticsUnderlineWarning LspDiagnosticsUnderlineError
+hi! link LspDiagnosticsUnderlineInformation LspDiagnosticsUnderlineError
+hi! link LspDiagnosticsUnderlineHint LspDiagnosticsUnderlineError
+
+"--------------------------------
+" Nvim
+"--------------------------------
+hi! link FloatBorder darkgrey

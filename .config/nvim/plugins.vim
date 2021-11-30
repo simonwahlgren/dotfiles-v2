@@ -34,22 +34,31 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
   " github extension for fugitive.vim
   Plug 'tpope/vim-rhubarb'
-  " a git commit browser
-  Plug 'junegunn/gv.vim'
 " make quickfick window editable
 Plug 'stefandtw/quickfix-reflector.vim'
-" powerful grammar checker
-Plug 'rhysd/vim-grammarous'
-" dynamically show content of vim registers
-Plug 'gennaro-tedesco/nvim-peekup'
+" plugin to preview the contents of the registers
+Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+let g:registers_window_border = "single"
+
+" a pretty diagnostics list to help you solve all the trouble your code is causing
+Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
+
+nnoremap gD <cmd>TroubleToggle lsp_workspace_diagnostics<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modern buffer manager
 Plug 'zefei/vim-wintabs'
+
 " shows a git diff in the gutter column and stages/undoes hunks
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+Plug 'nvim-lua/plenary.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
+
+" Plug 'nvim-lualine/lualine.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text and search
@@ -90,16 +99,29 @@ Plug 'junegunn/fzf',                            { 'dir': '~/.fzf', 'do': './inst
   Plug 'junegunn/fzf.vim'
 " move function arguments left and right
 Plug 'AndrewRadev/sideways.vim'
+" a powerful grammar checker for Vim using LanguageTool
+Plug 'rhysd/vim-grammarous'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto completion, linting & formatting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Intellisense engine for Vim8 & Neovim, full language server protocol support
 " as VSCode
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  " This plugin uses FZF fuzzy finder in place of Coc's built-in CocList
-  " sources as well as Coc's jumps (definition, reference etc).
-  Plug 'antoinemadec/coc-fzf'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"   " This plugin uses FZF fuzzy finder in place of Coc's built-in CocList
+"   " sources as well as Coc's jumps (definition, reference etc).
+"   Plug 'antoinemadec/coc-fzf'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'lukas-reineke/cmp-rg'
+Plug 'mattn/efm-langserver'
+
+" LSP signature hint as you type
+Plug 'ray-x/lsp_signature.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python
@@ -115,7 +137,7 @@ Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
 Plug 'vim-scripts/python_match.vim',            { 'for': 'python' }
 " jedi-vim is a VIM binding to the auto completion library Jedi
 " only used for :Pyimport feature
-Plug 'davidhalter/jedi-vim',                    { 'for': 'python' }
+" Plug 'davidhalter/jedi-vim',                    { 'for': 'python' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Java
@@ -157,5 +179,6 @@ Plug 'bcicen/vim-jfmt'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " automatic yaml formatter
 Plug 'tarekbecker/vim-yaml-formatter',          { 'for': 'yaml' }
+let g:yaml_formatter_indent_collection=1
 
 call plug#end()

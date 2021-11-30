@@ -6,7 +6,7 @@ new_window pixel 1
 focus_follows_mouse no
 
 # start a terminal
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -91,8 +91,12 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # change brightness
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+# xf86-video-intel
+# bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+# modesetting
+bindsym XF86MonBrightnessUp exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 10
 
 # toggle displays
 bindsym XF86Display exec --no-startup-id rofi-autorandr
@@ -110,6 +114,9 @@ bindsym $mod+F3 exec playerctl previous
 # screenshot
 bindsym --release Print exec flameshot gui
 
+# clipboard manager
+bindsym $mod+g exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
 # make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
@@ -124,28 +131,28 @@ for_window [class="Spotify"] mark "spotify", move scratchpad
 for_window [instance="slack" window_type="browser-window"] move window to scratchpad
 for_window [class="Slack" floating] move container to workspace current
 bindsym $mod+F9 [instance="slack"] scratchpad show
-exec --no-startup-id slack
+# exec --no-startup-id slack
 
 # discord
 for_window [instance="discord"] move window to scratchpad
 for_window [class="discord" floating] move container to workspace current
 bindsym $mod+F11 [instance="discord"] scratchpad show
-exec --no-startup-id discord
+# exec --no-startup-id discord
 
 # notes
 bindsym $mod+n [con_mark="notes"] scratchpad show
 for_window [class="notes"] mark "notes", move scratchpad
-exec --no-startup-id termite --class "notes"
+exec --no-startup-id alacritty --class "notes,notes"
 
 # dotfiles
 bindsym $mod+F10 [con_mark="dotfiles"] scratchpad show
 for_window [class="dotfiles"] mark "dotfiles", move scratchpad
-exec --no-startup-id termite --class "dotfiles"
+exec --no-startup-id alacritty --class "dotfiles,dotfiles"
 
 # generic scratchpad
 bindsym $mod+p [con_mark="scratchpad"] scratchpad show
 for_window [class="scratchpad"] mark "scratchpad", move scratchpad
-exec --no-startup-id termite --class "scratchpad"
+exec --no-startup-id alacritty --class "scratchpad,scratchpad"
 
 # bitwarden
 bindsym $mod+b [con_mark="bitwarden"] scratchpad show
@@ -154,14 +161,13 @@ for_window [class="Bitwarden"] mark "bitwarden", move scratchpad
 # window rules
 for_window [class="Display"] floating enable
 
+exec --no-startup-id picom
 exec --no-startup-id devmon --no-gui
 exec --no-startup-id nm-applet
-exec --no-startup-id autocutsel -fork
-exec --no-startup-id autocutsel -s PRIMARY -fork
-exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id greenclip daemon
 exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
 exec --no-startup-id redshift
-exec --no-startup-id syndaemon -i 0.2s -d
+exec --no-startup-id syndaemon -i 0.5s -d
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id lxsession
 exec --no-startup-id dunst
@@ -170,9 +176,6 @@ exec --no-startup-id pa-applet
 exec --no-startup-id insync start
 exec --no-startup-id xsetroot -solid "#000000"
 exec --no-startup-id unclutter
-exec --no-startup-id networkd-notify
-exec --no-startup-id cadmus
-exec --no-startup-id parcellite
 
 exec_always --no-startup-id xset b off
 exec_always --no-startup-id xset r rate 180 80
