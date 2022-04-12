@@ -304,30 +304,30 @@ hi CocHintFloat ctermfg=blue
 "--------------------------------
 " LSP
 "--------------------------------
-hi! link LspDiagnosticsDefaultHint blue
-hi! link LspDiagnosticsSignHint grey
-" LspDiagnosticsVirtualTextHint xxx links to LspDiagnosticsDefaultHint
-" LspDiagnosticsFloatingHint xxx links to LspDiagnosticsDefaultHint
+hi! link DiagnosticsDefaultHint blue
+hi! link DiagnosticsSignHint grey
+" DiagnosticsVirtualTextHint xxx links to DiagnosticsDefaultHint
+" DiagnosticsFloatingHint xxx links to DiagnosticsDefaultHint
 
-hi! link LspDiagnosticsDefaultError blue
-hi! link LspDiagnosticsSignError LspDiagnosticsSignHint
-" LspDiagnosticsVirtualTextError xxx links to LspDiagnosticsDefaultError
-" LspDiagnosticsFloatingError xxx links to LspDiagnosticsDefaultError
+hi! link DiagnosticsDefaultError blue
+hi! link DiagnosticsSignError DiagnosticsSignHint
+" DiagnosticsVirtualTextError xxx links to DiagnosticsDefaultError
+" DiagnosticsFloatingError xxx links to DiagnosticsDefaultError
 
-hi! link LspDiagnosticsDefaultWarning blue
-hi! link LspDiagnosticsSignWarning LspDiagnosticsSignHint
-" LspDiagnosticsVirtualTextWarning xxx links to LspDiagnosticsDefaultWarning
-" LspDiagnosticsFloatingWarning xxx links to LspDiagnosticsDefaultWarning
+hi! link DiagnosticsDefaultWarning blue
+hi! link DiagnosticsSignWarning DiagnosticsSignHint
+" DiagnosticsVirtualTextWarning xxx links to DiagnosticsDefaultWarning
+" DiagnosticsFloatingWarning xxx links to DiagnosticsDefaultWarning
 
-hi! link LspDiagnosticsDefaultInformation blue
-hi! link LspDiagnosticsSignInformation LspDiagnosticsSignHint
-" LspDiagnosticsVirtualTextInformation xxx links to LspDiagnosticsDefaultInformation
-" LspDiagnosticsFloatingInformation xxx links to LspDiagnosticsDefaultInformation
+hi! link DiagnosticsDefaultInformation blue
+hi! link DiagnosticsSignInformation DiagnosticsSignHint
+" DiagnosticsVirtualTextInformation xxx links to DiagnosticsDefaultInformation
+" DiagnosticsFloatingInformation xxx links to DiagnosticsDefaultInformation
 
-call s:HL('LspDiagnosticsUnderlineError', s:white, s:grey)
-hi! link LspDiagnosticsUnderlineWarning LspDiagnosticsUnderlineError
-hi! link LspDiagnosticsUnderlineInformation LspDiagnosticsUnderlineError
-hi! link LspDiagnosticsUnderlineHint LspDiagnosticsUnderlineError
+call s:HL('DiagnosticsUnderlineError', s:white, s:grey)
+hi! link DiagnosticsUnderlineWarning DiagnosticsUnderlineError
+hi! link DiagnosticsUnderlineInformation DiagnosticsUnderlineError
+hi! link DiagnosticsUnderlineHint DiagnosticsUnderlineError
 
 "--------------------------------
 " Nvim

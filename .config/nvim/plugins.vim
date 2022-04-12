@@ -44,8 +44,8 @@ let g:registers_window_border = "single"
 Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
 
-nnoremap gD <cmd>TroubleToggle lsp_workspace_diagnostics<cr>
-nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+nnoremap gD <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap gR <cmd>TroubleToggle references<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
@@ -57,6 +57,7 @@ Plug 'zefei/vim-wintabs'
 " Plug 'airblade/vim-gitgutter'
 Plug 'nvim-lua/plenary.nvim'
   Plug 'lewis6991/gitsigns.nvim'
+  Plug 'sindrets/diffview.nvim'
 
 " Plug 'nvim-lualine/lualine.nvim'
 
@@ -102,6 +103,15 @@ Plug 'AndrewRadev/sideways.vim'
 " a powerful grammar checker for Vim using LanguageTool
 Plug 'rhysd/vim-grammarous'
 
+Plug 'phaazon/hop.nvim'
+
+" alignment
+Plug 'junegunn/vim-easy-align'
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto completion, linting & formatting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -118,10 +128,11 @@ Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
   Plug 'lukas-reineke/cmp-rg'
-Plug 'mattn/efm-langserver'
+" Plug 'mattn/efm-langserver'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " LSP signature hint as you type
-Plug 'ray-x/lsp_signature.nvim'
+" Plug 'ray-x/lsp_signature.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python

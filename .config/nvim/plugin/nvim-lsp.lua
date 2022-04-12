@@ -1,21 +1,21 @@
 -- nvim-lsp
--- customize how diagnostics are displayed
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.diagnostic.config({
   virtual_text = false,
   signs = true,
-  underline = true,
+  underline = false,
   update_in_insert = false,
+  severity_sort = false,
 })
 
 -- show line diagnostics automatically in hover window
 vim.o.updatetime = 250
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- change diagnostic symbols in the sign column (gutter)
 local signs = { Error = ">", Warning = ">", Hint = "*", Information = "*" }
 for type, icon in pairs(signs) do
-  local hl = "LspDiagnosticsSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- nvim-lspconfig
@@ -83,38 +83,60 @@ require("lspconfig").jedi_language_server.setup({
 })
 
 -- efm
-local python_black = {
-  formatCommand = "black --quiet -",
-  formatStdin = true
-}
-local python_isort = {
-  formatCommand = "isort --quiet -",
-  formatStdin = true
-}
-local python_flake8 = {
-  lintCommand = "flake8 --stdin-display-name ${INPUT} -",
-  lintStdin = true,
-  lintFormats = {"%f:%l:%c: %m"}
-}
+-- local python_black = {
+--   formatCommand = "black --quiet -",
+--   formatStdin = true
+-- }
+-- local python_isort = {
+--   formatCommand = "isort --quiet -",
+--   formatStdin = true
+-- }
+-- local python_flake8 = {
+--   lintCommand = "flake8 --stdin-display-name ${INPUT} -",
+--   lintStdin = true,
+--   lintFormats = {"%f:%l:%c: %m"}
+-- }
 
-require("lspconfig").efm.setup({
-  init_options = {documentFormatting = true},
-  filetypes = { "python" },
-  settings = {
-    languages = {
-      python = {
-        python_flake8,
-        python_black,
-        python_isort,
-      }
+-- require("lspconfig").efm.setup({
+--   init_options = {documentFormatting = true},
+--   filetypes = { "python" },
+--   settings = {
+--     languages = {
+--       python = {
+--         python_flake8,
+--         python_black,
+--         python_isort,
+--       }
+--     }
+--   }
+-- })
+
+-- null ts
+require("null-ls").setup({
+    debug = false,
+    on_attach = on_attach,
+    sources = {
+        require("null-ls").builtins.diagnostics.flake8,
+        require("null-ls").builtins.diagnostics.luacheck,
+        require("null-ls").builtins.diagnostics.markdownlint,
+        -- require("null-ls").builtins.diagnostics.mypy,
+        require("null-ls").builtins.diagnostics.shellcheck,
+        require("null-ls").builtins.diagnostics.yamllint,
+        require("null-ls").builtins.formatting.black,
+        require("null-ls").builtins.formatting.isort,
+        require("null-ls").builtins.formatting.json_tool,
+        require("null-ls").builtins.formatting.terraform_fmt,
     }
-  }
 })
 
-require "lsp_signature".setup({
-  bind = true,
-  hint_enable = false,
-  handler_opts = {
-    border = "single"
-  }
-})
+-- lsp signatures
+-- require "lsp_signature".setup({
+--   bind = true,
+--   hint_enable = false,
+--   handler_opts = {
+--     border = "single"
+--   }
+-- })
+
+-- terraform-ls
+require'lspconfig'.terraformls.setup{}

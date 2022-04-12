@@ -3,6 +3,8 @@ typeset -U path
 path+=$HOME/.local/bin
 path+=$HOME/.local/opt/google-cloud-sdk/bin
 path+=$HOME/.local/opt/kafka/bin
+path+=$HOME/.local/share/gem/ruby/3.0.0/bin
+path+=$HOME/.gem/ruby/3.0.0/bin
 path+=/usr/local/bin
 path=(node_modules/.bin $path)
 
@@ -35,3 +37,7 @@ export KAFKA_BROKERS=kafka-0-external.kafka.svc.cluster.local:9094
 export PYENV_ROOT=$HOME/.pyenv
 path=($PYENV_ROOT/bin $path)
 path=($PYENV_ROOT/shims $path)
+
+# google cloud sdk
+# otherwise it might use your local .venv which might not be compatible
+export CLOUDSDK_PYTHON=$PYENV_ROOT/shims/python3

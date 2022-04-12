@@ -54,7 +54,11 @@
     # Be able to abort all diffs with `:cq` or `:cquit`
     trustExitCode = true
 
+; [difftool "difftastic"]
+;     cmd = difft "$LOCAL" "$REMOTE"
+
 [diff]
+    ; tool = difftastic
     external = git-icdiff.sh
     # Use better, descriptive initials (c, i, w) instead of a/b.
     mnemonicPrefix = true

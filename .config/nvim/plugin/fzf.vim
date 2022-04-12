@@ -1,7 +1,7 @@
 nnoremap <C-f> :Files<CR>
 nnoremap <leader>ff :Rg!<space>
 nnoremap <silent> <leader>fd :Files <C-R>=expand('%:h')<CR><CR>
-nnoremap <silent> <leader>fw :Rg <C-R><C-W><CR>
+nnoremap <silent> <leader>fw :Rg! <C-R><C-W><CR>
 nnoremap <silent> <leader>fe :BTags<CR>
 nnoremap <silent> <leader>ft :Tags<CR>
 nnoremap <silent> <C-b> :Buffers<CR>
@@ -60,8 +60,8 @@ command! FZFMru call fzf#run({
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg -F --column --line-number --hidden --glob "!.git" --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview('right:60%')
+  \           : fzf#vim#with_preview('right:60%:hidden', '?'),
   \   <bang>0)
 
 command! -bang -nargs=? -complete=dir Files
