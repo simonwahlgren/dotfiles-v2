@@ -60,6 +60,9 @@ set gdefault
 " set popup menu height to 10 items
 set pumheight=10
 
+" command window height
+set cmdheight=1
+
 " disbale folding
 set nofoldenable
 

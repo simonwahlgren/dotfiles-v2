@@ -1,3 +1,26 @@
+-- must be setup before any language servers
+require("nvim-lsp-installer").setup({
+    ensure_installed = {
+        "jedi_language_server",
+        "sumneko_lua",
+        "bashls",
+        "dockerls",
+        "jsonls",
+        "tsserver",
+        "terraformls",
+        "vimls",
+        "yamlls"
+    },
+    automatic_installation = true,
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
+        }
+    }
+})
+
 -- nvim-lsp
 vim.diagnostic.config({
   virtual_text = false,
@@ -31,13 +54,14 @@ local on_attach = function(client, bufnr)
 
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
   buf_set_keymap('n', '<leader>n', ':Format<CR>', opts)
 
+    -- buf_set_keymap('n', '<leader>o', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
@@ -140,3 +164,46 @@ require("null-ls").setup({
 
 -- terraform-ls
 require'lspconfig'.terraformls.setup{}
+
+-- treesitter
+require'nvim-treesitter.configs'.setup {
+  -- Enable all parsers
+  ensure_installed = {
+      "python",
+      "bash",
+      "dockerfile",
+      "javascript",
+      "json",
+      "lua",
+      "make",
+      "toml",
+      "typescript",
+      "vim",
+      "yaml",
+  },
+
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+
+  -- Incremental selection based on the named nodes from the grammar.
+  -- incremental_selection = {
+  --   enable = true,
+  --   keymaps = {
+  --     init_selection = "gnn",
+  --     node_incremental = "grn",
+  --     scope_incremental = "grc",
+  --     node_decremental = "grm",
+  --   },
+  -- },
+
+  -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
+  indent = {
+    enable = true,
+  }
+}

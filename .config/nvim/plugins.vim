@@ -28,8 +28,9 @@ Plug 'tpope/vim-surround'
 " adds various text objects to give you more targets to operate on
 Plug 'wellle/targets.vim'
 " collection of language packs
-let g:polyglot_disabled = ['python', 'markdown', 'php']
-Plug 'sheerun/vim-polyglot'
+" use treesitter instead
+" let g:polyglot_disabled = ['python', 'markdown', 'php']
+" Plug 'sheerun/vim-polyglot'
 " a git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
   " github extension for fugitive.vim
@@ -123,13 +124,15 @@ nmap ga <Plug>(EasyAlign)
 "   Plug 'antoinemadec/coc-fzf'
 
 Plug 'neovim/nvim-lspconfig'
+  " Neovim plugin that allows you to manage LSP servers 
+  Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
   Plug 'lukas-reineke/cmp-rg'
-" Plug 'mattn/efm-langserver'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " LSP signature hint as you type
 " Plug 'ray-x/lsp_signature.nvim'
@@ -140,10 +143,11 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 " text objects for Python
 Plug 'bps/vim-textobj-python',                  { 'for': 'python' }
 " enhanced version of the original Python syntax highlighting script
-"Plug 'kh3phr3n/python-syntax',                  { 'for': 'python' }
-Plug 'vim-python/python-syntax',                { 'for': 'python' }
+" testing treesitter
+" Plug 'vim-python/python-syntax',                { 'for': 'python' }
 " a nicer Python indentation style
-Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
+" testing treesitter
+" Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
 " extend the % motion and define g%, [%, and ]% motions
 Plug 'vim-scripts/python_match.vim',            { 'for': 'python' }
 " jedi-vim is a VIM binding to the auto completion library Jedi

@@ -23,3 +23,17 @@ function k8s_node_resources() {
   # TODO: get Allocated resources from `kubectl describe node <node>`
   join --nocheck-order <(echo "$resources") <(echo "$usage") | column -t
 }
+
+function kexec() {
+    pod=$1; shift; kubectl exec -it $pod -- $@;
+}
+
+function kdebug() {
+    deployment=$1
+    shift
+    container=${1:-app}
+    echo "Replacing command for container: $container"
+    kubectl patch deployments.apps $deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"'"$container"'","command":["tail", "-f", "/dev/null"]}]}}}}' 
+}
+
+bindkey -s '^o' 'kubectx\n'

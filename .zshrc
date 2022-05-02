@@ -1,97 +1,59 @@
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+#########################################
+# General
+#########################################
+# avoid the need to manually reset the terminal
+ttyctl -f
+# disable flow control (ctrl+s, ctrl+q) to enable saving with ctrl+s in Vim
+stty -ixon -ixoff
+# disable the caps lock key and map it to escape
+setxkbmap -option caps:escape
 
-source ~/.zplug/init.zsh
-zplug "mafredri/zsh-async"
-zplug "plugins/shrink-path", from:oh-my-zsh
-zplug "plugins/fancy-ctrl-z", from:oh-my-zsh
-zplug "lib/spectrum", from:oh-my-zsh
-zplug "lib/key-bindings", from:oh-my-zsh, use:key-bindings.zsh
-zplug "rupa/z", use:z.sh
-zplug "zsh-users/zsh-autosuggestions", use:zsh-autosuggestions.zsh, defer:2
-zplug "wulfgarpro/history-sync", use:history-sync.plugin.zsh
+# enable builtin calculator
+autoload -U zcalc
+# enable auto completion
+autoload -Uz compinit && compinit
 
-FORGIT_NO_ALIASES=1
-zplug "wfxr/forgit"
+# rehash automatically
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+# zstyle ':completion:*:*:*:default' menu yes select search
+# tab completion on hidden folders
+zstyle ':completion:*' special-dirs true
 
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+# autocomplete aliases
+setopt complete_aliases
+# automatically use cd when paths are entered without cd
+setopt autocd
 
-zplug load  # --verbose
-
-# Load all files from .zsh
-if [ -d $HOME/.zsh ]; then
-  for file in $HOME/.zsh/*.zsh; do
-    source $file
-  done
-fi
-
-# Load all files from .zsh/plugins
-if [ -d $HOME/.zsh/plugins ]; then
-  for file in $HOME/.zsh/plugins/*.zsh; do
-    source $file
-  done
-fi
-
+#########################################
+# History
+#########################################
 HISTFILE_NAME=.zsh_histfile
 HISTFILE="${HOME}/${HISTFILE_NAME}"
 HISTSIZE=100000
 SAVEHIST=100000
 
-# hist-sync
-ZSH_HISTORY_FILE="${HISTFILE}"
-ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
-ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"
+# record timestamp of command in HISTFILE
+setopt EXTENDED_HISTORY
+# ignore duplicated commands history list
+setopt HIST_IGNORE_DUPS
+# ignore commands that start with space
+setopt HIST_IGNORE_SPACE
+# show command with history expansion to user before running it
+setopt HIST_VERIFY
+# add commands to HISTFILE in order of execution
+setopt INC_APPEND_HISTORY
+# share command history data
+setopt SHARE_HISTORY
+# ignore duplicates in search history
+setopt HIST_IGNORE_ALL_DUPS
 
-setopt EXTENDED_HISTORY       # record timestamp of command in HISTFILE
-setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
-setopt HIST_IGNORE_SPACE      # ignore commands that start with space
-setopt HIST_VERIFY            # show command with history expansion to user before running it
-setopt INC_APPEND_HISTORY     # add commands to HISTFILE in order of execution
-setopt SHARE_HISTORY          # share command history data
-setopt HIST_IGNORE_ALL_DUPS   # ignore duplicates in search history
-
-bindkey -e
-
-# only show past commands that include the current input
-# move cursor to the of line after each match
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-
-# Edit the current command line in $EDITOR
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
-
-autoload -U zcalc
-
-# partial completions
-zstyle ':completion:*' completer _complete
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
-# zstyle ':completion:*:*:*:default' menu yes select search
-
-# custom prompts location
+#########################################
+# Prompt
+#########################################
+# custom prompt theme location
 fpath=( "$HOME/.zsh/themes/" $fpath )
-
-# enable auto completion
-autoload -Uz compinit
-compinit
-
-setopt complete_aliases
-
-# colored prompt
-autoload -Uz promptinit
-promptinit
-
-setopt prompt_subst
 
 get_pwd() {
     git_root=$PWD
@@ -108,26 +70,208 @@ get_pwd() {
       ;;
   esac
 }
-prompt_virtualenv() { [[ -n $VIRTUAL_ENV && -n $VIRTUAL_ENV_DISABLE_PROMPT ]] && echo "%{$FX[bold]$FG[055]%}($(basename $VIRTUAL_ENV)) "; }
 autoload -Uz get_pwd
-autoload -Uz prompt_virtualenv
 autoload -Uz promptinit && promptinit
 autoload -U colors && colors
 
-PROMPT='$(get_pwd) $(gitprompt) $(prompt_virtualenv)$FX[bold]$FG[055]
+# ?
+setopt prompt_subst
+
+# customize prompt
+PROMPT='$(get_pwd) $(gitprompt) $FX[bold]$FG[055]
 〉%{$reset_color%} '
 
-# avoid the need to manually reset the terminal
-ttyctl -f
+#########################################
+# Aliases
+#########################################
+alias ls="ls -lsh --color=auto"
+alias cal="cal -3 -m -w"
+alias free="free -h -w -t"
+alias dmesg="dmesg -T"
+alias weather='curl http://wttr.in/Stockholm'
+alias jobs="jobs -p"
+alias top="htop"
+alias resolvconf="sudo nvim /etc/resolv.conf"
+alias zcalc="zcalc -f"
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias etcfiles='sudo -E /usr/bin/git --git-dir=$HOME/.etcfiles/ --work-tree=/etc'
+alias bc="zcalc"
+alias grep="grep --colour=always"
+alias t="tree -C | less -r"
+alias pscpu="ps -eo pcpu,pid,user,args | sort -r -k1 | less"
+alias open="xdg-open"
+alias errors="journalctl -p 3 -b -f"
 
-# rehash automatically
-zstyle ':completion:*' rehash true
+alias -g G=" | grep"
+alias -g R=" | rg"
 
-# auto complete aliases
-setopt no_complete_aliases
+alias yay="yay --answerclean Y --answerdiff N --answeredit N --cleanafter --removemake"
+alias pinstall="yay -S"
+alias psearch="yay -Ss"
+alias premove="sudo pacman -Rsn"
+alias pupdate="sudo pacman -Syy"
+alias pupgrade="sudo pacman -Syyu && yay -Sua"
+alias pfind="yay -Qs"
+alias pown="pacman -Qo"
+alias plist="pacman -Ql"
+alias pclean="pacman -Qtdq | sudo pacman -Rns -"
 
-# Automatically use cd when paths are entered without cd
-setopt autocd
+alias gs="git status -s"
+alias gss="git status"
+alias glog="git log --no-merges --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short --all"
+alias glogg="git log --graph --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
+alias gf="git fetch"
+alias ga="git add"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gba="git branch -vva"
+alias gl="git pull"
+alias gp="git push"
+alias gc="git commit"
+alias gc!="git commit -v --amend"
+alias gco="git checkout"
+alias grhh="git reset --hard"
+alias gstp="git stash pop"
+alias gst="git stash"
+alias gcm="git checkout master"
+alias gdn="git diff --no-ext-diff"
+alias gcd="cd $(git root)"
+alias gb="git brv"
 
-# FZF
+alias ghb="gh repo view -w"
+alias ghpr="gh pr create -f -d"
+
+alias nano="nvim"
+alias vim="nvim"
+alias vimdiff="nvim -d"
+
+alias dc="docker-compose"
+alias dcr="docker-compose down -v ; docker-compose up -d"
+alias dcd="docker-compose rm -f -s"
+alias dcl="docker-compose logs -f --tail=100"
+function dexec(){ container=$1; shift; docker exec -it $container $@; }
+
+# get latest docker container id
+function dlc(){ docker ps | cut -d" " -f1 | head -2 | tail -1 }
+function dll(){ docker logs -f $(dlc) }
+function del(){ docker exec -ti $(dlc) bash }
+
+alias sys="sudo systemctl"
+alias sys_reload="sudo systemctl daemon-reload"
+
+alias venv="python -m venv .venv"
+alias pyclean="find . -regex '^.*\(__pycache__\|\.py[co]\)$' -delete"
+
+alias pipf="pip freeze"
+alias pipu="pip freeze | xargs pip uninstall -y"
+alias pipi="pip install --process-dependency-links -U -r"
+alias pipo="pip list --outdated --format=columns"
+
+alias ssh="TERM=screen-256color ssh"
+alias tp="PS1='# ' telepresence"
+
+alias k="kubectl"
+alias kl="kubectl logs --tail=100 -f"
+alias kg="kubectl get"
+alias kp="kubectl get pods -o wide"
+alias ke="kubectl exec -ti"
+alias kd="kubectl describe pod"
+alias kx="kubectx"
+
+#########################################
+# Local configuration
+#########################################
+if [ -d $HOME/.zsh ]; then
+  for file in $HOME/.zsh/*.zsh; do
+    source $file
+  done
+fi
+
+if [ -d $HOME/.zsh/plugins ]; then
+  for file in $HOME/.zsh/plugins/*.zsh; do
+    source $file
+  done
+fi
+
+#########################################
+# 3rd party configuration
+#########################################
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
+    source /usr/share/nvm/init-nvm.sh
+fi
+
+if [ -f /opt/google-cloud-sdk/path.zsh.inc ]; then
+    source '/opt/google-cloud-sdk/path.zsh.inc'
+fi
+
+if [ -f /opt/google-cloud-sdk/completion.zsh.inc ]; then
+    source '/opt/google-cloud-sdk/completion.zsh.inc'
+fi
+
+if [ -f $(dirname $0)/secrets.zsh ]; then
+    source $(dirname $0)/secrets.zsh 2>/dev/null
+fi
+
+if [ -f /opt/azure-cli/az.completion ]; then
+    autoload bashcompinit && bashcompinit
+    source '/opt/azure-cli/az.completion'
+fi
+
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
+fi
+
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
+
+if command -v kubectl >/dev/null 2>&1; then
+    source <(kubectl completion zsh)
+fi
+
+if command -v gh >/dev/null 2>&1; then
+    eval "$(gh completion -s zsh)"
+fi
+
+#########################################
+# Plugin manager
+#########################################
+# bootstrap
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+zinit snippet OMZ::lib/spectrum.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+
+zinit snippet OMZ::plugins/fancy-ctrl-z/fancy-ctrl-z.plugin.zsh
+# shrink directory paths for brevity and pretty-printing
+zinit snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
+# adds keyboard shortcuts for navigating directory history and hierarchy
+zinit snippet OMZ::plugins/dirhistory/dirhistory.plugin.zsh
+
+zinit light rupa/z
+zinig light MichaelAquilina/zsh-autoswitch-virtualenv
+
+# auto suggestions
+zinit light zsh-users/zsh-autosuggestions
+# use CTRL+arrow keys to jump words
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey '^ ' autosuggest-accept
+bindkey '^[^M' autosuggest-execute
+
+# zinit light "wulfgarpro/history-sync"
+# ZSH_HISTORY_FILE="${HISTFILE}"
+# ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
+# ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"
