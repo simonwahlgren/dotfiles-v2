@@ -180,7 +180,7 @@ exec --no-startup-id unclutter
 exec_always --no-startup-id sleep 1; xset b off
 exec_always --no-startup-id sleep 1; xset r rate 180 80
 exec_always --no-startup-id xmodmap ~/.Xmodmap
-# exec_always --no-startup-id autorandr --change --default default --force
+exec_always --no-startup-id autorandr --change --default default --force
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

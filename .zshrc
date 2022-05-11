@@ -21,8 +21,6 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower
 # tab completion on hidden folders
 zstyle ':completion:*' special-dirs true
 
-# autocomplete aliases
-setopt complete_aliases
 # automatically use cd when paths are entered without cd
 setopt autocd
 
@@ -179,6 +177,49 @@ alias kd="kubectl describe pod"
 alias kx="kubectx"
 
 #########################################
+# Plugin manager
+#########################################
+# bootstrap
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+zinit snippet OMZ::lib/spectrum.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
+
+zinit snippet OMZ::plugins/fancy-ctrl-z/fancy-ctrl-z.plugin.zsh
+# shrink directory paths for brevity and pretty-printing
+zinit snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
+# adds keyboard shortcuts for navigating directory history and hierarchy
+zinit snippet OMZ::plugins/dirhistory/dirhistory.plugin.zsh
+# datetime aliases, isodate, isodate_utc, isodate_basic, unixtimestamp, date_local
+zinit snippet OMZ::plugins/isodate/isodate.plugin.zsh
+
+zinit light rupa/z
+zinit light MichaelAquilina/zsh-autoswitch-virtualenv
+
+# auto suggestions
+zinit light zsh-users/zsh-autosuggestions
+# use CTRL+arrow keys to jump words
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey '^ ' autosuggest-accept
+bindkey '^[^M' autosuggest-execute
+
+# zinit light "wulfgarpro/history-sync"
+# ZSH_HISTORY_FILE="${HISTFILE}"
+# ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
+# ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"
+
+#########################################
 # Local configuration
 #########################################
 if [ -d $HOME/.zsh ]; then
@@ -234,44 +275,3 @@ fi
 if command -v gh >/dev/null 2>&1; then
     eval "$(gh completion -s zsh)"
 fi
-
-#########################################
-# Plugin manager
-#########################################
-# bootstrap
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-zinit snippet OMZ::lib/spectrum.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
-
-zinit snippet OMZ::plugins/fancy-ctrl-z/fancy-ctrl-z.plugin.zsh
-# shrink directory paths for brevity and pretty-printing
-zinit snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
-# adds keyboard shortcuts for navigating directory history and hierarchy
-zinit snippet OMZ::plugins/dirhistory/dirhistory.plugin.zsh
-
-zinit light rupa/z
-zinig light MichaelAquilina/zsh-autoswitch-virtualenv
-
-# auto suggestions
-zinit light zsh-users/zsh-autosuggestions
-# use CTRL+arrow keys to jump words
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-bindkey '^ ' autosuggest-accept
-bindkey '^[^M' autosuggest-execute
-
-# zinit light "wulfgarpro/history-sync"
-# ZSH_HISTORY_FILE="${HISTFILE}"
-# ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
-# ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"

@@ -3,6 +3,25 @@
     email = simon.wahlgren@gmail.com
     name = Simon Wahlgren
 
+[core]
+    editor = nvim
+    pager = delta
+    excludesfile = /home/simon/.gitignore_global
+
+    # Don't consider trailing space change as a cause for merge conflicts
+    whitespace = -trailing-space
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    side-by-side = true
+    line-numbers = true
+    ; diff-so-fancy = true
+    syntax-theme = Nord
+    ; syntax-theme = Visual Studio Dark+
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
 # the following rewrites are required when using multiple ssh keys. see
 # ~/.ssh/config for the matching config to load the correct key.
 #
@@ -33,6 +52,7 @@
 [merge]
     tool = vimdiff
     keepBackup = false
+    conflictstyle = diff3
 
 [mergetool]
     prompt = true
@@ -54,32 +74,21 @@
     # Be able to abort all diffs with `:cq` or `:cquit`
     trustExitCode = true
 
-; [difftool "difftastic"]
-;     cmd = difft "$LOCAL" "$REMOTE"
-
 [diff]
-    ; tool = difftastic
-    external = git-icdiff.sh
-    # Use better, descriptive initials (c, i, w) instead of a/b.
+    ; # Use better, descriptive initials (c, i, w) instead of a/b.
     mnemonicPrefix = true
-    # Show renames/moves as such
+    ; # Show renames/moves as such
     renames = true
-    # Display submodule-related information (commit listings)
+    ; # Display submodule-related information (commit listings)
     submodule = log
+    ; # delta
+    colorMoved = default
 
 [log]
     # Use abbrev SHAs whenever possible/relevant instead of full 40 chars
     abbrevCommit = true
     # Automatically --follow when given a single path
     follow = true
-
-[core]
-    editor = nvim
-    pager = less
-    excludesfile = /home/simon/.gitignore_global
-
-    # Don't consider trailing space change as a cause for merge conflicts
-    whitespace = -trailing-space
 
 [init]
     templatedir = ~/.git_template
@@ -90,10 +99,10 @@
 [rerere]
     enabled = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
+    helper = 
+    helper = !/usr/bin/gh auth git-credential
