@@ -5,6 +5,7 @@ path+=$HOME/.local/opt/google-cloud-sdk/bin
 path+=$HOME/.local/opt/kafka/bin
 path+=$HOME/.local/share/gem/ruby/3.0.0/bin
 path+=$HOME/.gem/ruby/3.0.0/bin
+path+=$HOME/.krew/bin
 path+=/usr/local/bin
 path=(node_modules/.bin $path)
 

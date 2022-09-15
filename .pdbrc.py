@@ -41,3 +41,22 @@ class Config(pdb.DefaultConfig):
     colorscheme = TERMINAL_COLORS
     current_line_color = 50
     editor = 'nvim'
+
+
+# Save history across sessions
+# https://github.com/pdbpp/pdbpp/issues/52
+def _pdbrc_init():
+    import readline
+    import os
+    home = os.environ["HOME"]
+    histfile = home + "/.pdb_history"
+    try:
+        readline.read_history_file(histfile)
+    except IOError:
+        pass
+    import atexit
+    atexit.register(readline.write_history_file, histfile)
+    readline.set_history_length(1000)
+
+_pdbrc_init()
+del _pdbrc_init

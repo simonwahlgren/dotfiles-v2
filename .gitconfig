@@ -42,6 +42,10 @@
     fix-conflicts = git diff --name-only --diff-filter=U | uniq  | xargs nvim
     prune-branches = !git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
     wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+    # git amend-to <REV> # e.g.
+    # git amend-to HEAD~1
+    # git amend-to aaaa1111
+    amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash \"$SHA^\"; }; f"
 
 [push]
     default = simple

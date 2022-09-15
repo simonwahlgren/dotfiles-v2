@@ -160,6 +160,7 @@ for_window [class="Bitwarden"] mark "bitwarden", move scratchpad
 
 # window rules
 for_window [class="Display"] floating enable
+# for_window [name="Bookmark saved - Vivaldi"] floating enable
 
 exec --no-startup-id picom
 exec --no-startup-id devmon --no-gui
@@ -176,6 +177,7 @@ exec --no-startup-id pa-applet
 exec --no-startup-id insync start
 exec --no-startup-id hsetroot -solid "#000000"
 exec --no-startup-id unclutter
+exec --no-startup-id easyeffects --gapplication-service
 
 exec_always --no-startup-id sleep 1; xset b off
 exec_always --no-startup-id sleep 1; xset r rate 180 80

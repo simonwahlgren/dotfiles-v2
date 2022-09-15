@@ -116,7 +116,7 @@ alias pclean="pacman -Qtdq | sudo pacman -Rns -"
 
 alias gs="git status -s"
 alias gss="git status"
-alias glog="git log --no-merges --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short --all"
+alias glog="git log --no-merges --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cred%d%Creset %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short"
 alias glogg="git log --graph --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
 alias gf="git fetch"
 alias ga="git add"
@@ -199,7 +199,7 @@ zinit snippet OMZ::plugins/fancy-ctrl-z/fancy-ctrl-z.plugin.zsh
 # shrink directory paths for brevity and pretty-printing
 zinit snippet OMZ::plugins/shrink-path/shrink-path.plugin.zsh
 # adds keyboard shortcuts for navigating directory history and hierarchy
-zinit snippet OMZ::plugins/dirhistory/dirhistory.plugin.zsh
+# zinit snippet OMZ::plugins/dirhistory/dirhistory.plugin.zsh
 # datetime aliases, isodate, isodate_utc, isodate_basic, unixtimestamp, date_local
 zinit snippet OMZ::plugins/isodate/isodate.plugin.zsh
 
@@ -213,6 +213,13 @@ bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey '^ ' autosuggest-accept
 bindkey '^[^M' autosuggest-execute
+
+# completions
+# https://git.lmburns.com/dotfiles/file/.config/zsh/.zshrc.html
+zinit wait lucid light-mode as'completion' for \
+  id-as'poetry_comp' atclone='poetry completions zsh > _poetry' \
+  atpull'%atclone' has'poetry' \
+    zdharma-continuum/null
 
 # zinit light "wulfgarpro/history-sync"
 # ZSH_HISTORY_FILE="${HISTFILE}"

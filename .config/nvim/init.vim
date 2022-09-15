@@ -343,9 +343,12 @@ vnoremap < <gv
 " repeat macro over selected lines
 vnoremap @ :norm @q
 
-" open files in new tab
+" open file under cursor in new tab
 nnoremap gf <C-W>gf
 vnoremap gf <C-W>gf
+
+" open currently open file in new tab and change cwd for tab
+nnoremap <silent> gF :tabnew %<CR> :tcd %:h<CR>
 
 " paste with ctrl-v in insert mode
 inoremap <C-v> <C-r>+
@@ -429,7 +432,7 @@ function! ToggleVExplorer()
   endif
 endfunction
 
-nnoremap <silent> F12 :call ToggleVExplorer()<CR>
+nnoremap <silent> <F12> :call ToggleVExplorer()<CR>
 
 " wipe all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor

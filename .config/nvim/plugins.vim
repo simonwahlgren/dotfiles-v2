@@ -109,9 +109,9 @@ Plug 'phaazon/hop.nvim'
 " alignment
 Plug 'junegunn/vim-easy-align'
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+xmap gA <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+nmap gA <Plug>(EasyAlign)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto completion, linting & formatting
@@ -147,7 +147,7 @@ Plug 'bps/vim-textobj-python',                  { 'for': 'python' }
 " Plug 'vim-python/python-syntax',                { 'for': 'python' }
 " a nicer Python indentation style
 " testing treesitter
-" Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
+Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
 " extend the % motion and define g%, [%, and ]% motions
 Plug 'vim-scripts/python_match.vim',            { 'for': 'python' }
 " jedi-vim is a VIM binding to the auto completion library Jedi
@@ -195,5 +195,11 @@ Plug 'bcicen/vim-jfmt'
 " automatic yaml formatter
 Plug 'tarekbecker/vim-yaml-formatter',          { 'for': 'yaml' }
 let g:yaml_formatter_indent_collection=1
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Terraform
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'hashivim/vim-terraform',          { 'for': 'terraform' }
 
 call plug#end()

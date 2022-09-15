@@ -1,5 +1,7 @@
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow -g '!.git' -g '!node_modules' -g '!.venv' 2>/dev/null --sort path"
-export FZF_DEFAULT_OPTS="--height 100% +i --bind ctrl-d:page-down,ctrl-u:page-up"
+export FZF_DEFAULT_OPTS="--height 100% +i --bind ctrl-d:page-down,ctrl-u:page-up --exact"
+# remove first column in history
+export FZF_CTRL_R_OPTS='--with-nth 2..'
 
 fbr() {
   local branches branch

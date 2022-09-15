@@ -202,8 +202,9 @@ require'nvim-treesitter.configs'.setup {
   --   },
   -- },
 
+  -- 2022-08-01: Doesn't work very well, vim-python-pep8-indent is preferred
   -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
-  indent = {
-    enable = true,
-  }
+  -- indent = {
+  --   enable = true,
+  -- }
 }
