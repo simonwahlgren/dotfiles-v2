@@ -99,6 +99,7 @@ alias t="tree -C | less -r"
 alias pscpu="ps -eo pcpu,pid,user,args | sort -r -k1 | less"
 alias open="xdg-open"
 alias errors="journalctl -p 3 -b -f"
+alias egrep="grep -E"
 
 alias -g G=" | grep"
 alias -g R=" | rg"

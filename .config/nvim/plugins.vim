@@ -27,10 +27,6 @@ Plug 'yssl/QFEnter'
 Plug 'tpope/vim-surround'
 " adds various text objects to give you more targets to operate on
 Plug 'wellle/targets.vim'
-" collection of language packs
-" use treesitter instead
-" let g:polyglot_disabled = ['python', 'markdown', 'php']
-" Plug 'sheerun/vim-polyglot'
 " a git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
   " github extension for fugitive.vim
@@ -45,14 +41,16 @@ let g:registers_window_border = "single"
 Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
 
-nnoremap gD <cmd>TroubleToggle workspace_diagnostics<cr>
-nnoremap gR <cmd>TroubleToggle references<cr>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modern buffer manager
-Plug 'zefei/vim-wintabs'
+" Plug 'zefei/vim-wintabs'
+
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+  " changing the way of how to use tabs on neovim. This plugin scopes
+  " buffers to tabs cleaning up tabline plugins like bufferline.nvim
+  Plug 'tiagovla/scope.nvim'
 
 " shows a git diff in the gutter column and stages/undoes hunks
 " Plug 'airblade/vim-gitgutter'
@@ -116,15 +114,8 @@ nmap gA <Plug>(EasyAlign)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto completion, linting & formatting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Intellisense engine for Vim8 & Neovim, full language server protocol support
-" as VSCode
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"   " This plugin uses FZF fuzzy finder in place of Coc's built-in CocList
-"   " sources as well as Coc's jumps (definition, reference etc).
-"   Plug 'antoinemadec/coc-fzf'
-
 Plug 'neovim/nvim-lspconfig'
-  " Neovim plugin that allows you to manage LSP servers 
+  " Neovim plugin that allows you to manage LSP servers
   Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'

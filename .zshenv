@@ -3,6 +3,7 @@ typeset -U path
 path+=$HOME/.local/bin
 path+=$HOME/.local/opt/google-cloud-sdk/bin
 path+=$HOME/.local/opt/kafka/bin
+path+=$HOME/.local/opt/factorio/bin/x64
 path+=$HOME/.local/share/gem/ruby/3.0.0/bin
 path+=$HOME/.gem/ruby/3.0.0/bin
 path+=$HOME/.krew/bin

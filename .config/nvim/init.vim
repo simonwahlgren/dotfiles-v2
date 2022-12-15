@@ -173,6 +173,9 @@ set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 set background=dark
 colorscheme darch
 
+" global status line
+set laststatus=3
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Status line
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -256,13 +259,16 @@ map Y y$
 " always paste on a new line
 " nmap p :pu<cr>
 " nmap P :pu!<cr>
+
 " paste and jump to the first character of the yanked text
 " noremap p p`[
 " select last paste
 nnoremap gp `[v`]
 
-" wipe all buffers
-nnoremap <leader>W :%bd<CR>
+" delete all buffers
+map <C-M-q> :%bdelete<cr>
+" delete current buffer
+map <C-q> :bdelete!<cr>
 
 " quick save
 nnoremap <leader><leader> :w!<CR>
@@ -281,12 +287,6 @@ nnoremap <silent> <leader>sh :leftabove  vnew<CR>
 nnoremap <silent> <leader>sl :rightbelow vnew<CR>
 nnoremap <silent> <leader>sk :leftabove  new<CR>
 nnoremap <silent> <leader>sj :rightbelow new<CR>
-
-" create splitted terminals
-nnoremap <silent> <leader>th :leftabove  vsplit term://zsh<CR>
-nnoremap <silent> <leader>tl :rightbelow vsplit term://zsh<CR>
-nnoremap <silent> <leader>tk :leftabove  split term://zsh<CR>
-nnoremap <silent> <leader>tj :rightbelow split term://zsh<CR>
 
 " delete backwards
 nnoremap <BS> daw
@@ -436,6 +436,9 @@ nnoremap <silent> <F12> :call ToggleVExplorer()<CR>
 
 " wipe all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
+
+" enable tabs
+command! EnableTabs set autoindent noexpandtab tabstop=4 shiftwidth=4
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto commands

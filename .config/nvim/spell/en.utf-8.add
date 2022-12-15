@@ -18,3 +18,5 @@ microservice
 Kubernetes
 Shopify
 SKUs
+messagebus
+backend
