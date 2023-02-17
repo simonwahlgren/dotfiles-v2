@@ -95,8 +95,16 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- jedi
 require("lspconfig").jedi_language_server.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+    on_attach = on_attach,
+    capabilities = capabilities,
+    -- available options https://github.com/pappasam/jedi-language-server#configuration
+    -- disable diagnostics, should be disabled by default since 0.39 but seems to not work
+    -- https://github.com/pappasam/jedi-language-server/issues/187
+    init_options = {
+        diagnostics = {
+          enable = false
+        }
+    }
 })
 
 -- null ts

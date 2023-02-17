@@ -34,8 +34,8 @@ Plug 'tpope/vim-fugitive'
 " make quickfick window editable
 Plug 'stefandtw/quickfix-reflector.vim'
 " plugin to preview the contents of the registers
-Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
-let g:registers_window_border = "single"
+" Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+" let g:registers_window_border = "single"
 
 " a pretty diagnostics list to help you solve all the trouble your code is causing
 Plug 'kyazdani42/nvim-web-devicons'
