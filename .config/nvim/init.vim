@@ -23,6 +23,11 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_winsize = 20
 
+" force enable focus events
+" https://github.com/vimpostor/vim-tpipeline#focus-events-are-not-working-for-me-in-tmux
+let &t_fe = "\<Esc>[?1004h"
+let &t_fd = "\<Esc>[?1004l"
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -42,11 +47,14 @@ set undofile
 set undodir=$HOME/.vim_undo
 
 " make is possible to switch buffers without saving modifications
-set hidden
+" set hidden
+
+" hide empty buffers
+set nohidden
 
 " reduce and shorten command line messages
 set report=9999
-set shortmess=astTWAIcF
+set shortmess=astTWAIcFo
 
 " prevents inserting two spaces after punctuation on a join (J)
 set nojoinspaces
@@ -61,7 +69,8 @@ set gdefault
 set pumheight=10
 
 " command window height
-set cmdheight=1
+" make sure to add 'o' to shortmess
+set cmdheight=0
 
 " disbale folding
 set nofoldenable
@@ -171,6 +180,7 @@ set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 " enable true color support
 " set termguicolors
 set background=dark
+" colorscheme oxocarbon
 colorscheme darch
 
 " global status line
@@ -201,12 +211,12 @@ set statusline +=%2*%f
 set statusline +=%=
 
 " column
-set statusline +=[%c]
+" set statusline +=[%c]
 
 " current tag and coc integration
-set statusline +=%{exists('*tagbar#currenttag')?tagbar#currenttag('[%s]',''):''}
-set statusline +=%{'['.StatusDiagnostic().']'}
-set statusline +=%*
+" set statusline +=%{exists('*tagbar#currenttag')?tagbar#currenttag('[%s]',''):''}
+" set statusline +=%{'['.StatusDiagnostic().']'}
+" set statusline +=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Mappings
@@ -266,12 +276,12 @@ map Y y$
 nnoremap gp `[v`]
 
 " delete all buffers
-map <C-M-q> :%bdelete<cr>
+map <C-M-q> :%bdelete!<cr>
 " delete current buffer
 map <C-q> :bdelete!<cr>
 
 " quick save
-nnoremap <leader><leader> :w!<CR>
+nnoremap <silent> <leader><leader> :w!<CR>
 
 " jump to last active buffer
 nnoremap <silent> <leader>e :b#<CR>
@@ -368,6 +378,10 @@ tnoremap <leader><Tab> <C-\><C-n><c-w>W
 " open help in it's own tab
 cabbrev help tab help
 
+" create files easily in current folder
+" :e pwd
+cabbrev cwd %:h/
+
 " insert mode ddate adds date stamp
 iab <expr> ddate strftime("%Y-%m-%d")
 cab <expr> ddate strftime("%Y-%m-%d")
@@ -399,19 +413,20 @@ nnoremap <silent> <C-M-k> :<C-u>call <SID>Undojoin()<CR>:<C-u>move -2<CR>==:<C-u
 xnoremap <silent> <C-M-j> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '>+1<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
 xnoremap <silent> <C-M-k> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
 
+" Built into Neovim 0.8+
 " Search for selected text, forwards or backwards.
 " https://vim.fandom.com/wiki/Search_for_visually_selected_text
-vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+" vnoremap <silent> * :<C-U>
+"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+"   \gvy/<C-R><C-R>=substitute(
+"   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+"   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
-vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gV:call setreg('"', old_reg, old_regtype)<CR>
+" vnoremap <silent> # :<C-U>
+"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+"   \gvy?<C-R><C-R>=substitute(
+"   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+"   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
@@ -433,6 +448,35 @@ function! ToggleVExplorer()
 endfunction
 
 nnoremap <silent> <F12> :call ToggleVExplorer()<CR>
+
+" Avoid scrolling when switch buffers
+" https://vim.fandom.com/wiki/Avoid_scrolling_when_switch_buffers
+" Save current view settings on a per-window, per-buffer basis.
+function! AutoSaveWinView()
+    if !exists("w:SavedBufView")
+        let w:SavedBufView = {}
+    endif
+    let w:SavedBufView[bufnr("%")] = winsaveview()
+endfunction
+
+" Restore current view settings.
+function! AutoRestoreWinView()
+    let buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        let v = winsaveview()
+        let atStartOfFile = v.lnum == 1 && v.col == 0
+        if atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[buf])
+        endif
+        unlet w:SavedBufView[buf]
+    endif
+endfunction
+
+" When switching buffers, preserve window view.
+if v:version >= 700
+    autocmd BufLeave * call AutoSaveWinView()
+    autocmd BufEnter * call AutoRestoreWinView()
+endif
 
 " wipe all registers
 command! WipeReg for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
@@ -480,6 +524,9 @@ augroup nvimrc_group
 
     " disable indention for php
     autocmd FileType php filetype indent off
+
+    " disable indention for php
+    autocmd FileType ctrlsf setlocal cmdheight=1
 
     " redraw diff on updates
     autocmd BufWritePost * if &diff | diffupdate | endif

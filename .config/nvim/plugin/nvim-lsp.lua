@@ -1,15 +1,16 @@
 -- must be setup before any language servers
 require("nvim-lsp-installer").setup({
     ensure_installed = {
-        "jedi_language_server",
-        "sumneko_lua",
         "bashls",
         "dockerls",
+        "grammarly-languageserver",
+        "jedi_language_server",
         "jsonls",
-        "tsserver",
+        "sumneko_lua",
         "terraformls",
+        "tsserver",
         "vimls",
-        "yamlls"
+        "yamlls",
     },
     automatic_installation = true,
     ui = {
@@ -29,6 +30,9 @@ vim.diagnostic.config({
   update_in_insert = false,
   severity_sort = false,
 })
+
+-- enable debugging, show using :LspLog
+vim.lsp.set_log_level("debug")
 
 -- show line diagnostics automatically in hover window
 vim.o.updatetime = 250
@@ -86,9 +90,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-end
 
--- vim.lsp.set_log_level("debug")
+  require "lsp_signature".on_attach(signature_setup, bufnr)
+end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -166,8 +170,25 @@ require'nvim-treesitter.configs'.setup {
   -- },
 
   -- 2022-08-01: Doesn't work very well, vim-python-pep8-indent is preferred
+  -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1136
   -- Indentation based on treesitter for the = operator. NOTE: This is an experimental feature.
   -- indent = {
   --   enable = true,
   -- }
 }
+
+-- lsp-signature
+require "lsp_signature".setup{
+    hint_enable = false,
+}
+
+-- grammarly
+-- require'lspconfig'.grammarly.setup{
+--   -- Some issues getting the paid version working
+--   -- Might be related: https://github.com/neovim/nvim-lspconfig/issues/2007
+--   -- Get clientId here: https://developer.grammarly.com/apps
+--   -- Alternative: https://valentjn.github.io/ltex/ with n-grams
+--   -- init_options = {
+--   --   clientId = ""
+--   -- }
+-- }

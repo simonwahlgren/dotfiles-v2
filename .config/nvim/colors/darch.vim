@@ -89,6 +89,7 @@ call s:HL('CursorLine', s:lightgrey, s:darkgrey, s:bold)
 
 " Hide black line tildas
 highlight NonText ctermfg=0
+highlight EndOfBuffer ctermfg=0
 
 hi! link LineNr grey
 hi! link CursorLineNR blue
@@ -306,23 +307,15 @@ hi CocHintFloat ctermfg=blue
 "--------------------------------
 hi! link DiagnosticsDefaultHint blue
 hi! link DiagnosticsSignHint grey
-" DiagnosticsVirtualTextHint xxx links to DiagnosticsDefaultHint
-" DiagnosticsFloatingHint xxx links to DiagnosticsDefaultHint
 
 hi! link DiagnosticsDefaultError blue
 hi! link DiagnosticsSignError DiagnosticsSignHint
-" DiagnosticsVirtualTextError xxx links to DiagnosticsDefaultError
-" DiagnosticsFloatingError xxx links to DiagnosticsDefaultError
 
 hi! link DiagnosticsDefaultWarning blue
 hi! link DiagnosticsSignWarning DiagnosticsSignHint
-" DiagnosticsVirtualTextWarning xxx links to DiagnosticsDefaultWarning
-" DiagnosticsFloatingWarning xxx links to DiagnosticsDefaultWarning
 
 hi! link DiagnosticsDefaultInformation blue
 hi! link DiagnosticsSignInformation DiagnosticsSignHint
-" DiagnosticsVirtualTextInformation xxx links to DiagnosticsDefaultInformation
-" DiagnosticsFloatingInformation xxx links to DiagnosticsDefaultInformation
 
 call s:HL('DiagnosticsUnderlineError', s:white, s:grey)
 hi! link DiagnosticsUnderlineWarning DiagnosticsUnderlineError

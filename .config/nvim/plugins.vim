@@ -40,6 +40,13 @@ Plug 'stefandtw/quickfix-reflector.vim'
 " a pretty diagnostics list to help you solve all the trouble your code is causing
 Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
+" Embed your vim statusline in tmux
+Plug 'vimpostor/vim-tpipeline'
+let g:tpipeline_autoembed = 0
+let g:tpipeline_statusline = '%f'
+
+" use as inspiration
+" Plug 'nyoom-engineering/oxocarbon.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
@@ -89,7 +96,8 @@ Plug 'svermeulen/vim-subversive'
 " motion through CamelCaseWords and underscore_notation
 Plug 'vim-scripts/camelcasemotion'
 " display number of search matches & index of a current match
-Plug 'google/vim-searchindex'
+" conflicts with cmdheight=0
+" Plug 'google/vim-searchindex'
 " a better (hopefully) :Join command
 Plug 'sk1418/Join'
 " highlighting word under cursor and all of its occurrences
@@ -126,7 +134,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " LSP signature hint as you type
-" Plug 'ray-x/lsp_signature.nvim'
+Plug 'ray-x/lsp_signature.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python

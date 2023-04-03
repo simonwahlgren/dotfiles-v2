@@ -42,9 +42,28 @@ cmp.setup {
     end,
   },
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'path' },
-    { name = 'rg' }
+    {
+        name = 'nvim_lsp',
+        priority = 1000,
+        max_item_count = 3,
+        entry_filter = function(entry, ctx)
+          return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'File'
+        end
+    },
+    {
+        name = 'buffer',
+        priority = 800,
+        max_item_count = 3,
+    },
+    {
+        name = 'rg',
+        priority = 600,
+        max_item_count = 3,
+    },
+    {
+        name = 'path',
+        priority = 400,
+        max_item_count = 3,
+    },
   },
 }
