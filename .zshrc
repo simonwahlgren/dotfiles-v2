@@ -100,6 +100,11 @@ alias pscpu="ps -eo pcpu,pid,user,args | sort -r -k1 | less"
 alias open="xdg-open"
 alias errors="journalctl -p 3 -b -f"
 alias egrep="grep -E"
+function vd() {
+    # make zsh functions work
+    viddy -d -n 2 'zsh -c "source ~/.zshrc; "'"\"$@\""'""'
+}
+alias watch="vd "  # space at the end will expand aliases
 
 alias -g G=" | grep"
 alias -g R=" | rg"
@@ -123,6 +128,7 @@ alias gf="git fetch"
 alias ga="git add"
 alias gd="git diff"
 alias gdc="git diff --cached"
+alias gdm="git fetch && git diff origin/main..HEAD"
 alias gba="git branch -vva"
 alias gl="git pull"
 alias gp="git push"

@@ -24,3 +24,7 @@ MyStudio
 webhooks
 HMAC
 webhook
+HMACs
+UUID
+idempotently
+anonymizer

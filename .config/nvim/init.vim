@@ -231,8 +231,8 @@ map ä ]
 map Ä }
 
 " reflow current line
-map Q gqq
-vmap Q gqq
+map Q gww
+vmap Q gww
 
 " open urls async
 map gx :call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>
@@ -538,9 +538,14 @@ augroup nvimrc_group
     autocmd BufRead,BufNewFile *.avsc set filetype=json
 
     " populate cwindow with grep results
-     autocmd QuickFixCmdPost *grep* cwindow
+    autocmd QuickFixCmdPost *grep* cwindow
 
-     " disable automatically insert the current comment leader after hitting
-     "  <Enter> in Insert mode.
-     autocmd FileType * setlocal formatoptions-=r
+    " disable automatically insert the current comment leader after hitting
+    "  <Enter> in Insert mode.
+    autocmd FileType * setlocal formatoptions-=r
+
+    " show recording
+    " colors seems to get messed up
+    autocmd RecordingEnter * set cmdheight=1
+    autocmd RecordingLeave * set cmdheight=0
 augroup END

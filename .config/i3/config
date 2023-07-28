@@ -6,7 +6,7 @@ new_window pixel 1
 focus_follows_mouse no
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -142,17 +142,17 @@ bindsym $mod+F11 [instance="discord"] scratchpad show
 # notes
 bindsym $mod+n [con_mark="notes"] scratchpad show
 for_window [class="notes"] mark "notes", move scratchpad
-exec --no-startup-id alacritty --class "notes,notes"
+exec --no-startup-id kitty --class "notes,notes"
 
 # dotfiles
 bindsym $mod+F10 [con_mark="dotfiles"] scratchpad show
 for_window [class="dotfiles"] mark "dotfiles", move scratchpad
-exec --no-startup-id alacritty --class "dotfiles,dotfiles"
+exec --no-startup-id kitty --class "dotfiles,dotfiles"
 
 # generic scratchpad
 bindsym $mod+p [con_mark="scratchpad"] scratchpad show
 for_window [class="scratchpad"] mark "scratchpad", move scratchpad
-exec --no-startup-id alacritty --class "scratchpad,scratchpad"
+exec --no-startup-id kitty --class "scratchpad,scratchpad"
 
 # bitwarden
 bindsym $mod+b [con_mark="bitwarden"] scratchpad show
@@ -173,7 +173,7 @@ exec --no-startup-id xfce4-power-manager
 exec --no-startup-id lxsession
 exec --no-startup-id dunst
 exec --no-startup-id blueman-applet
-exec --no-startup-id pa-applet --disable-key-grabbing
+# exec --no-startup-id pa-applet --disable-key-grabbing
 exec --no-startup-id insync start
 exec --no-startup-id hsetroot -solid "#000000"
 exec --no-startup-id unclutter

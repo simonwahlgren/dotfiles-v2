@@ -28,5 +28,5 @@ function! s:MarkdownPreview()
   :!xdg-open http://localhost:6419/
 endfunction
 
-nnoremap <buffer> ,mp :call <SID>MarkdownPreview()<cr>
+nnoremap <buffer> ,mp :!pkill grip<cr>:call <SID>MarkdownPreview()<cr>
 nnoremap <buffer> ,ms :!pkill grip<cr>

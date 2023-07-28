@@ -11,9 +11,6 @@ setlocal textwidth=100
 " setlocal fo-=r "Automatically insert the current comment leader after hitting <Enter> in Insert mode.
 " setlocal fo-=o "Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
 
-" format json
-" nnoremap <buffer> <silent><leader>J :%!python -m json.tool<cr>
-
 if python_version >= 307
     nnoremap <buffer> <silent> <leader>BB Obreakpoint()<esc>
     nnoremap <buffer> <silent> <leader>bb obreakpoint()<esc>

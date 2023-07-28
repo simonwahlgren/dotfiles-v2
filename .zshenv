@@ -24,9 +24,9 @@ export PYTHONBREAKPOINT=pdb.set_trace
 # export PYTHONWARNINGS="ignore"
 export PYTHONDONTWRITEBYTECODE=1
 
-# java
-# https://wiki.archlinux.org/index.php/java#Better_font_rendering
-export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
+# allow gcloud to access external packages
+# https://cloud.google.com/iap/docs/using-tcp-forwarding#increasing_the_tcp_upload_bandwidth
+export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # z
 export _Z_EXCLUDE_DIRS=".cache|.git|.venv|node_modules"
@@ -34,6 +34,7 @@ export _Z_EXCLUDE_DIRS=".cache|.git|.venv|node_modules"
 # work
 export SCHEMA_REGISTRY_URL=http://schema-registry-cp-schema-registry.kafka.svc.cluster.local:8081
 export KAFKA_BROKERS=kafka-0-external.kafka.svc.cluster.local:9094
+export KAFKA_BOOTSTRAP_SERVERS=kafka-0-external.kafka.svc.cluster.local:9094
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv

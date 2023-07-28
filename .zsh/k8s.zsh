@@ -36,4 +36,22 @@ function kdebug() {
     kubectl patch deployments.apps $deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"'"$container"'","command":["tail", "-f", "/dev/null"]}]}}}}' 
 }
 
+function k8s_cleanup() {
+    : ${1?"You must enter a keyword"}
+    keyword="$1"
+    resources=$(kubectl api-resources --verbs=list --namespaced -o name \
+        | grep -v events \
+        | xargs -n 1 kubectl get --show-kind --ignore-not-found -A \
+        | grep --color=never "$keyword" \
+        | awk '{print $2}')
+    echo "$resources"
+    echo
+    echo "Cleanup resources?"
+    read
+    while read -r resource
+    do
+      kubectl delete "$resource"
+    done <<< $(echo "$resources")
+}
+
 bindkey -s '^o' 'kubectx\n'

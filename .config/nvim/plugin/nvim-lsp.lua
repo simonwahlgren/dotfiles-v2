@@ -51,32 +51,36 @@ end
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
 
-  -- work around for https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
-  -- basically, make gq work for null-ls sources without formatting support (markdownlint)
-  local function is_null_ls_formatting_enabed(bufnr)
-    local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    local generators = require("null-ls.generators").get_available(
-        file_type,
-        require("null-ls.methods").internal.FORMATTING
-    )
-    return #generators > 0
-  end
-  if client.server_capabilities.documentFormattingProvider then
-    if
-      client.name == "null-ls" and is_null_ls_formatting_enabed(bufnr)
-      or client.name ~= "null-ls"
-    then
-      -- use default formatexpr set ny neovim since https://github.com/neovim/neovim/pull/19677
-    else
-      vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
-    end
-  end
+  -- -- work around for https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
+  -- -- basically, make gq work for null-ls sources without formatting support (markdownlint)
+  -- local function is_null_ls_formatting_enabed(bufnr)
+  --   local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  --   local generators = require("null-ls.generators").get_available(
+  --       file_type,
+  --       require("null-ls.methods").internal.FORMATTING
+  --   )
+  --   return #generators > 0
+  -- end
+  -- if client.server_capabilities.documentFormattingProvider then
+  --   if
+  --     client.name == "null-ls" and is_null_ls_formatting_enabed(bufnr)
+  --     or client.name ~= "null-ls"
+  --   then
+  --     -- use default formatexpr set ny neovim since https://github.com/neovim/neovim/pull/19677
+  --   else
+  --     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+  --   end
+  -- end
 
-  -- disable formatexpr for python to get `gq` mapping working again
-  -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1259
-  if client.name == "jedi_language_server" then
-    vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
-  end
+  -- -- disable formatexpr for python to get `gq` mapping working again
+  -- -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1259
+  -- if client.name == "jedi_language_server" then
+  --   vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+  -- end
+
+  -- disable lsp formatexpr for all language servers
+  -- use gw instead, https://github.com/neovim/neovim/pull/22615
+  -- vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -86,6 +90,8 @@ local on_attach = function(client, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format { async = true }' ]]
   buf_set_keymap('n', '<leader>n', ':Format<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
