@@ -9,5 +9,5 @@ let g:vim_tags_auto_generate = 0
 autocmd BufWritePost * TagsGenerate
 
 " current git directory, supports submodules
-let g:gitdir = system('echo $(git rev-parse --git-dir)/tags')
+let g:gitdir = system('echo $(git rev-parse --git-dir 2>/dev/null)/tags')
 execute "set tags=".g:gitdir

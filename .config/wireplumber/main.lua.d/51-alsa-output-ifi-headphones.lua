@@ -7,8 +7,8 @@ rule = {
   apply_properties = {
     ["node.description"] = "iFi DAC Headphones",
     ["node.nick"] = "iFi DAC Headphones",
-    ["priority.driver"] = 1002,
-    ["priority.session"] = 1002,
+    ["priority.driver"] = 1001,
+    ["priority.session"] = 1001,
   },
 }
 

@@ -7,3 +7,5 @@ let g:ctrlsf_mapping = {
 \ "prev": "N",
 \ }
 let g:ctrlsf_winsize = '100%'
+" https://github.com/dyng/ctrlsf.vim/issues/329
+let g:ctrlsf_search_mode = 'sync'

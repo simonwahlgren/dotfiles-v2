@@ -5,6 +5,11 @@ hide_edge_borders smart
 new_window pixel 1
 focus_follows_mouse no
 
+# gaps inner 10px
+# gaps outer 10px
+# workspace 2 gaps inner 50px
+# workspace 2 gaps outer 50px
+
 # start a terminal
 bindsym $mod+Return exec kitty
 
@@ -81,8 +86,8 @@ bindsym $mod+Shift+0 move container to workspace 10
 # bindsym $mod+Shift+p move workspace to output right
 
 # move focused window between monitors
-bindsym $mod+o move container to output right
-bindsym $mod+Shift+o move container to output left
+# bindsym $mod+o move container to output right
+# bindsym $mod+Shift+o move container to output left
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -102,8 +107,8 @@ bindsym XF86MonBrightnessDown exec light -U 10
 bindsym XF86Display exec --no-startup-id rofi-autorandr
 
 # audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume '@DEFAULT_AUDIO_SINK@' 0.1
-bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume '@DEFAULT_AUDIO_SINK@' 0.1-
+bindsym XF86AudioRaiseVolume exec --no-startup-id "wpctl set-volume '@DEFAULT_AUDIO_SINK@' 5%+ && tvolnoti-show $(echo $(wpctl get-volume '@DEFAULT_AUDIO_SINK@' | cut -d' ' -f2)'*'100  | command bc)"
+bindsym XF86AudioLowerVolume exec --no-startup-id "wpctl set-volume '@DEFAULT_AUDIO_SINK@' 5%- && tvolnoti-show $(echo $(wpctl get-volume '@DEFAULT_AUDIO_SINK@' | cut -d' ' -f2)'*'100  | command bc)"
 bindsym XF86AudioMute exec --no-startup-id wpctl set-volume '@DEFAULT_AUDIO_SINK@' 0
 
 # control spotify
@@ -158,6 +163,10 @@ exec --no-startup-id kitty --class "scratchpad,scratchpad"
 bindsym $mod+b [con_mark="bitwarden"] scratchpad show
 for_window [class="Bitwarden"] mark "bitwarden", move scratchpad
 
+# obsidian
+for_window [class="obsidian"] mark "obsidian", move scratchpad
+bindsym $mod+o [con_mark="obsidian"] scratchpad show
+
 # window rules
 for_window [class="Display"] floating enable
 # for_window [name="Bookmark saved - Vivaldi"] floating enable
@@ -178,6 +187,7 @@ exec --no-startup-id insync start
 exec --no-startup-id hsetroot -solid "#000000"
 exec --no-startup-id unclutter
 exec --no-startup-id easyeffects --gapplication-service
+exec --no-startup-id tvolnoti -T dark
 
 exec_always --no-startup-id sleep 1; xset b off
 exec_always --no-startup-id sleep 1; xset r rate 180 80
@@ -186,13 +196,13 @@ exec_always --no-startup-id autorandr --change --default default --force
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        bindsym l resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym j resize shrink height 10 px or 10 ppt
-        bindsym h resize grow width 10 px or 10 ppt
+    bindsym l resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym j resize shrink height 10 px or 10 ppt
+    bindsym h resize grow width 10 px or 10 ppt
 
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 

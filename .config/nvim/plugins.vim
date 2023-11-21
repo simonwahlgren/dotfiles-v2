@@ -40,7 +40,8 @@ Plug 'stefandtw/quickfix-reflector.vim'
 " a pretty diagnostics list to help you solve all the trouble your code is causing
 Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
-" Embed your vim statusline in tmux
+
+" embed your vim statusline in tmux
 Plug 'vimpostor/vim-tpipeline'
 let g:tpipeline_autoembed = 0
 let g:tpipeline_statusline = '%f'
@@ -52,12 +53,14 @@ let g:tpipeline_statusline = '%f'
 " => Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " modern buffer manager
-" Plug 'zefei/vim-wintabs'
+Plug 'zefei/vim-wintabs'
 
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
-  " changing the way of how to use tabs on neovim. This plugin scopes
-  " buffers to tabs cleaning up tabline plugins like bufferline.nvim
-  Plug 'tiagovla/scope.nvim'
+" Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+"   " changing the way of how to use tabs on neovim. This plugin scopes
+"   " buffers to tabs cleaning up tabline plugins like bufferline.nvim
+"   Plug 'tiagovla/scope.nvim'
+
+" Plug 'b0o/incline.nvim'
 
 " shows a git diff in the gutter column and stages/undoes hunks
 " Plug 'airblade/vim-gitgutter'
@@ -65,7 +68,17 @@ Plug 'nvim-lua/plenary.nvim'
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'sindrets/diffview.nvim'
 
-" Plug 'nvim-lualine/lualine.nvim'
+" if you get Unknown function firenvim#install
+" nvim --headless "+call firenvim#install(0) | q"
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+let g:firenvim_config = {
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'takeover': 'never',
+        \ },
+    \ }
+\ }
+Plug 'projekt0n/github-nvim-theme'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text and search
@@ -108,7 +121,7 @@ Plug 'junegunn/fzf',                            { 'dir': '~/.fzf', 'do': './inst
 " move function arguments left and right
 Plug 'AndrewRadev/sideways.vim'
 " a powerful grammar checker for Vim using LanguageTool
-Plug 'rhysd/vim-grammarous'
+" Plug 'rhysd/vim-grammarous'
 
 Plug 'phaazon/hop.nvim'
 
@@ -149,33 +162,12 @@ Plug 'bps/vim-textobj-python',                  { 'for': 'python' }
 Plug 'Vimjas/vim-python-pep8-indent',           { 'for': 'python' }
 " extend the % motion and define g%, [%, and ]% motions
 Plug 'vim-scripts/python_match.vim',            { 'for': 'python' }
-" jedi-vim is a VIM binding to the auto completion library Jedi
-" only used for :Pyimport feature
-" Plug 'davidhalter/jedi-vim',                    { 'for': 'python' }
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Java
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Plug 'autozimu/LanguageClient-neovim',          { 'for': 'java', 'branch': 'next', 'do': 'bash install.sh' }
-" Plug 'artur-shaik/vim-javacomplete2',           { 'for': 'java' }
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Clojure
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" much simpler rainbow parentheses
-" Plug 'junegunn/rainbow_parentheses.vim',        { 'for': 'clojure' }
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => PHP
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" multi-language DBGP debugger client
-" Plug 'joonty/vdebug',                           { 'for': 'php', 'on':  'VdebugStart' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Markdown
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " text filtering and alignment
-Plug 'godlygeek/tabular',                       { 'for': 'markdown' }
+Plug 'godlygeek/tabular',                       { 'for': 'markdown,csv' }
   " syntax highlighting, matching rules and mappings for the original Markdown
   " and extensions.
   Plug 'plasticboy/vim-markdown',               { 'for': 'markdown' }
@@ -194,7 +186,6 @@ Plug 'bcicen/vim-jfmt'
 " automatic yaml formatter
 Plug 'tarekbecker/vim-yaml-formatter',          { 'for': 'yaml' }
 let g:yaml_formatter_indent_collection=1
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Terraform

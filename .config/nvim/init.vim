@@ -47,7 +47,7 @@ set undofile
 set undodir=$HOME/.vim_undo
 
 " make is possible to switch buffers without saving modifications
-" set hidden
+set hidden
 
 " hide empty buffers
 set nohidden
@@ -70,7 +70,9 @@ set pumheight=10
 
 " command window height
 " make sure to add 'o' to shortmess
-set cmdheight=0
+" CtrlSF is not working properly, asking for "Press ENTER or type command to continue"
+" on every new search
+set cmdheight=1
 
 " disbale folding
 set nofoldenable
@@ -111,12 +113,7 @@ endif
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+set signcolumn=number
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Search
@@ -164,7 +161,7 @@ set ruler
 " don't conceal anything
 set conceallevel=0
 
-" enable Vim's hybrid mode
+" enable hybrid mode
 set relativenumber
 set number
 
@@ -176,12 +173,17 @@ syntax sync minlines=256
 set list!
 set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
-" color scheme
 " enable true color support
 " set termguicolors
-set background=dark
-" colorscheme oxocarbon
-colorscheme darch
+
+" color scheme
+if exists('g:started_by_firenvim')
+    colorscheme github_light
+    set laststatus=0
+else
+    set background=dark
+    colorscheme darch
+endif
 
 " global status line
 set laststatus=3
@@ -189,19 +191,6 @@ set laststatus=3
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Status line
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' ')
-endfunction
-
 " left aligned
 set statusline=
 set statusline +=%1*\ \%{toupper(mode())}\ \%*
@@ -209,14 +198,6 @@ set statusline +=%2*%f
 
 " right aligned
 set statusline +=%=
-
-" column
-" set statusline +=[%c]
-
-" current tag and coc integration
-" set statusline +=%{exists('*tagbar#currenttag')?tagbar#currenttag('[%s]',''):''}
-" set statusline +=%{'['.StatusDiagnostic().']'}
-" set statusline +=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Mappings
@@ -236,10 +217,6 @@ vmap Q gww
 
 " open urls async
 map gx :call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>
-
-" jump to matching bracket
-" nmap <tab> % " conflicts with C-I?
-nmap <leader><Tab> %
 
 " fast newline insertion
 nmap <leader><BS> O<Esc>j
@@ -266,19 +243,18 @@ nmap ,z 1z=
 " yank from cursor until end of line excluding new line
 map Y y$
 
-" always paste on a new line
-" nmap p :pu<cr>
-" nmap P :pu!<cr>
-
 " paste and jump to the first character of the yanked text
 " noremap p p`[
+
 " select last paste
 nnoremap gp `[v`]
 
+" enable without wintabs
 " delete all buffers
-map <C-M-q> :%bdelete!<cr>
-" delete current buffer
-map <C-q> :bdelete!<cr>
+" map <C-M-q> :%bdelete!<cr>
+" deletes current buffer without losing split window
+" https://stackoverflow.com/questions/4465095/how-to-delete-a-buffer-in-vim-without-losing-the-split-window
+" map <C-q> :bp\|bd #<cr>
 
 " quick save
 nnoremap <silent> <leader><leader> :w!<CR>
@@ -300,9 +276,6 @@ nnoremap <silent> <leader>sj :rightbelow new<CR>
 
 " delete backwards
 nnoremap <BS> daw
-
-" reselect the text you just entered
-nnoremap gV `[v`]
 
 " home row beginning / end of line
 noremap H 0
@@ -378,9 +351,15 @@ tnoremap <leader><Tab> <C-\><C-n><c-w>W
 " open help in it's own tab
 cabbrev help tab help
 
+" quit all
+cabbrev Q qa
+
 " create files easily in current folder
-" :e pwd
+" :e cwd
 cabbrev cwd %:h/
+
+" insert current filename for easier renaming
+cabbrev File %:f
 
 " insert mode ddate adds date stamp
 iab <expr> ddate strftime("%Y-%m-%d")
@@ -413,21 +392,7 @@ nnoremap <silent> <C-M-k> :<C-u>call <SID>Undojoin()<CR>:<C-u>move -2<CR>==:<C-u
 xnoremap <silent> <C-M-j> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '>+1<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
 xnoremap <silent> <C-M-k> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
 
-" Built into Neovim 0.8+
-" Search for selected text, forwards or backwards.
-" https://vim.fandom.com/wiki/Search_for_visually_selected_text
-" vnoremap <silent> * :<C-U>
-"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-"   \gvy/<C-R><C-R>=substitute(
-"   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-"   \gV:call setreg('"', old_reg, old_regtype)<CR>
-
-" vnoremap <silent> # :<C-U>
-"   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-"   \gvy?<C-R><C-R>=substitute(
-"   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-"   \gV:call setreg('"', old_reg, old_regtype)<CR>
-
+" file explorer
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
       let expl_win_num = bufwinnr(t:expl_buf_num)
@@ -522,18 +487,13 @@ augroup nvimrc_group
     " enter insert mode when starting a new terminal
     autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
 
-    " disable indention for php
-    autocmd FileType php filetype indent off
-
-    " disable indention for php
-    autocmd FileType ctrlsf setlocal cmdheight=1
-
     " redraw diff on updates
     autocmd BufWritePost * if &diff | diffupdate | endif
 
     " clear jumplist when entering neovim
     autocmd VimEnter * clearjumps
 
+    " avro
     autocmd BufRead,BufNewFile *.tmpl set filetype=json
     autocmd BufRead,BufNewFile *.avsc set filetype=json
 

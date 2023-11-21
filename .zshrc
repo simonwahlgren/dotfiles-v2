@@ -146,6 +146,8 @@ alias gb="git brv"
 alias ghb="gh repo view -w"
 alias ghpr="gh pr create -f -d"
 
+alias tf="terraform"
+
 alias nano="nvim"
 alias vim="nvim"
 alias vimdiff="nvim -d"

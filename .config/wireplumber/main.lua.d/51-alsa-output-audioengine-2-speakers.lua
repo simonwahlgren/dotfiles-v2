@@ -7,8 +7,8 @@ rule = {
   apply_properties = {
     ["node.description"] = "Audioengine 2+",
     ["node.nick"] = "Audioengine 2+",
-    ["priority.driver"] = 1001,
-    ["priority.session"] = 1001,
+    ["priority.driver"] = 1002,
+    ["priority.session"] = 1002,
   },
 }
 
