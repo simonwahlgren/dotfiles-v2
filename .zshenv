@@ -8,6 +8,8 @@ path+=$HOME/.local/share/gem/ruby/3.0.0/bin
 path+=$HOME/.gem/ruby/3.0.0/bin
 path+=$HOME/.krew/bin
 path+=/usr/local/bin
+path+=$HOME/.cargo/bin
+path+=$HOME/go/bin
 path=(node_modules/.bin $path)
 
 # system
@@ -32,9 +34,14 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 export _Z_EXCLUDE_DIRS=".cache|.git|.venv|node_modules"
 
 # work
+## CS
+# export SCHEMA_REGISTRY_URL=http://schema-registry-cp-schema-registry.kafka.svc.cluster.local:8081
+# export KAFKA_BROKERS=kafka-0-external.kafka.svc.cluster.local:9094
+# export KAFKA_BOOTSTRAP_SERVERS=kafka-0-external.kafka.svc.cluster.local:9094
+## Fyndiq
 export SCHEMA_REGISTRY_URL=http://schema-registry-cp-schema-registry.kafka.svc.cluster.local:8081
-export KAFKA_BROKERS=kafka-0-external.kafka.svc.cluster.local:9094
-export KAFKA_BOOTSTRAP_SERVERS=kafka-0-external.kafka.svc.cluster.local:9094
+export KAFKA_BROKERS=kafka-cp-kafka-headless.kafka.svc.cluster.local:9092
+export KAFKA_BOOTSTRAP_SERVERS=kafka-cp-kafka-headless.kafka.svc.cluster.local:9092
 
 # pyenv
 export PYENV_ROOT=$HOME/.pyenv

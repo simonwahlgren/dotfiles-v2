@@ -25,7 +25,7 @@ function k8s_node_resources() {
 }
 
 function kexec() {
-    pod=$1; shift; kubectl exec -it $pod -- $@;
+    pod=$1; shift; kubectl exec -it -c app $pod -- $@;
 }
 
 function kdebug() {

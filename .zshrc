@@ -29,7 +29,7 @@ setopt autocd
 #########################################
 HISTFILE_NAME=.zsh_histfile
 HISTFILE="${HOME}/${HISTFILE_NAME}"
-HISTSIZE=100000
+HISTSIZE=150000
 SAVEHIST=100000
 
 # record timestamp of command in HISTFILE
@@ -122,7 +122,7 @@ alias pclean="pacman -Qtdq | sudo pacman -Rns -"
 
 alias gs="git status -s"
 alias gss="git status"
-alias glog="git log --no-merges --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cred%d%Creset %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short"
+alias glog="git log --abbrev-commit --oneline --color=always '--pretty=format:%Cred%h%Creset - %s %Cred%d%Creset %Cgreen(%cd) %C(bold blue)<%an>%Creset ' --date=short"
 alias glogg="git log --graph --pretty=format:'%C(124)%ad %C(24)%h %C(34)%an %C(252)%s%C(178)%d' --date=short"
 alias gf="git fetch"
 alias ga="git add"
@@ -185,6 +185,10 @@ alias ke="kubectl exec -ti"
 alias kd="kubectl describe pod"
 alias kx="kubectx"
 
+function test-microphone(){ arecord -vvv -f dat /dev/null }
+
+function kitty-reload(){ kill -SIGUSR1 $(pidof kitty)}
+
 #########################################
 # Plugin manager
 #########################################
@@ -234,6 +238,8 @@ zinit wait lucid light-mode as'completion' for \
 # ZSH_HISTORY_FILE="${HISTFILE}"
 # ZSH_HISTORY_PROJ="${HOME}/.zsh_history_proj"
 # ZSH_HISTORY_FILE_ENC="${ZSH_HISTORY_PROJ}/${HISTFILE_NAME}.gpg"
+
+zinit light "marlonrichert/zsh-hist"
 
 #########################################
 # Local configuration

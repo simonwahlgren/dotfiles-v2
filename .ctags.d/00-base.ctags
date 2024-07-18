@@ -1,5 +1,5 @@
 --recurse=yes
---languages=python,java,rust
+--languages=python,javascript,rust,typescript,markdown
 --exclude=.git
 --exclude=.tox
 --exclude=.venv*
@@ -7,4 +7,6 @@
 --exclude=node_modules
 --exclude=.next
 --exclude=cypress
+--exclude=build
+--exclude=.terraform
 --tag-relative=yes

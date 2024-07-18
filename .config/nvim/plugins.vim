@@ -48,6 +48,11 @@ let g:tpipeline_statusline = '%f'
 
 " use as inspiration
 " Plug 'nyoom-engineering/oxocarbon.nvim'
+"
+" Peekaboo extends " and @ in normal mode and <CTRL-R> in insert mode so you
+" can see the contents of the registers.
+Plug 'junegunn/vim-peekaboo'
+let g:peekaboo_window = 'vert bo 100new'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Interface
@@ -78,7 +83,7 @@ let g:firenvim_config = {
         \ },
     \ }
 \ }
-Plug 'projekt0n/github-nvim-theme'
+" Plug 'projekt0n/github-nvim-theme'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text and search
@@ -137,7 +142,8 @@ nmap gA <Plug>(EasyAlign)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'neovim/nvim-lspconfig'
   " Neovim plugin that allows you to manage LSP servers
-  Plug 'williamboman/nvim-lsp-installer'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
@@ -146,8 +152,10 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+" Plug 'github/copilot.vim'
+
 " LSP signature hint as you type
-Plug 'ray-x/lsp_signature.nvim'
+" Plug 'ray-x/lsp_signature.nvim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Python

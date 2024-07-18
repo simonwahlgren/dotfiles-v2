@@ -174,7 +174,7 @@ set list!
 set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
 " enable true color support
-" set termguicolors
+set notermguicolors
 
 " color scheme
 if exists('g:started_by_firenvim')
@@ -216,7 +216,7 @@ map Q gww
 vmap Q gww
 
 " open urls async
-map gx :call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>
+map go :call jobstart(["xdg-open", getcwd() . "/" . expand("<cfile>")], {"detach": v:true})<CR>
 
 " fast newline insertion
 nmap <leader><BS> O<Esc>j

@@ -10,10 +10,23 @@ nnoremap <silent> <leader>fm :FZFMru<CR>
 nnoremap <silent> <leader>fc :BCommits!<CR>
 nnoremap <silent> <leader>fC :Commits!<CR>
 
+" Build a quickfix list when multiple files are selected
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-x': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 let gitdir = system('echo $(git rev-parse --git-dir)/tags')
 " For some reason the first time the tag file is generated we
 " get 'Failed to create tags', but the file is correctly created
-let g:fzf_tags_command = 'ctags -f ' . gitdir
+let g:fzf_tags_command = 'ptags -f ' . gitdir
 
 let g:fzf_layout = { 'down': '~100%' }
 " Floating window mode

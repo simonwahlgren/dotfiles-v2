@@ -33,6 +33,12 @@
 [url "git@github-business-ventures:business-ventures"]
     insteadOf = git@github.com:business-ventures
 
+[url "git@github-hm-group:hm-group"]
+    insteadOf = git@github.com:hm-group
+
+[url "git@azure-hm-group:v3"]
+    insteadOf = git@ssh.dev.azure.com:v3
+
 # replace ssh://github.com/business-ventures with ssh://git@github-business-ventures/business-ventures
 # url is used when pip installing a package from github
 [url "ssh://git@github-business-ventures/business-ventures"]
@@ -103,9 +109,9 @@
 [rerere]
     enabled = true
 [filter "lfs"]
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
     required = true
 [credential "https://github.com"]
     helper = 

@@ -1,26 +1,16 @@
--- must be setup before any language servers
-require("nvim-lsp-installer").setup({
+require("mason").setup()
+require("mason-lspconfig").setup {
     ensure_installed = {
         "bashls",
-        "dockerls",
-        "grammarly-languageserver",
-        "jedi_language_server",
-        "jsonls",
-        "sumneko_lua",
+        -- "dockerls",
+        "pyright",
+        -- "jsonls",
         "terraformls",
         "tsserver",
-        "vimls",
-        "yamlls",
+        -- "vimls",
+        -- "yamlls",
     },
-    automatic_installation = true,
-    ui = {
-        icons = {
-            server_installed = "✓",
-            server_pending = "➜",
-            server_uninstalled = "✗"
-        }
-    }
-})
+}
 
 -- nvim-lsp
 vim.diagnostic.config({
@@ -32,7 +22,7 @@ vim.diagnostic.config({
 })
 
 -- enable debugging, show using :LspLog
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 -- show line diagnostics automatically in hover window
 vim.o.updatetime = 250
@@ -45,82 +35,145 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
--- nvim-lspconfig
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
+-- -- nvim-lspconfig
+-- -- Use an on_attach function to only map the following keys
+-- -- after the language server attaches to the current buffer
+-- local nvim_lsp = require('lspconfig')
+-- local on_attach = function(client, bufnr)
 
-  -- -- work around for https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
-  -- -- basically, make gq work for null-ls sources without formatting support (markdownlint)
-  -- local function is_null_ls_formatting_enabed(bufnr)
-  --   local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
-  --   local generators = require("null-ls.generators").get_available(
-  --       file_type,
-  --       require("null-ls.methods").internal.FORMATTING
-  --   )
-  --   return #generators > 0
-  -- end
-  -- if client.server_capabilities.documentFormattingProvider then
-  --   if
-  --     client.name == "null-ls" and is_null_ls_formatting_enabed(bufnr)
-  --     or client.name ~= "null-ls"
-  --   then
-  --     -- use default formatexpr set ny neovim since https://github.com/neovim/neovim/pull/19677
-  --   else
-  --     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
-  --   end
-  -- end
+--   -- -- work around for https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
+--   -- -- basically, make gq work for null-ls sources without formatting support (markdownlint)
+--   -- local function is_null_ls_formatting_enabed(bufnr)
+--   --   local file_type = vim.api.nvim_buf_get_option(bufnr, "filetype")
+--   --   local generators = require("null-ls.generators").get_available(
+--   --       file_type,
+--   --       require("null-ls.methods").internal.FORMATTING
+--   --   )
+--   --   return #generators > 0
+--   -- end
+--   -- if client.server_capabilities.documentFormattingProvider then
+--   --   if
+--   --     client.name == "null-ls" and is_null_ls_formatting_enabed(bufnr)
+--   --     or client.name ~= "null-ls"
+--   --   then
+--   --     -- use default formatexpr set ny neovim since https://github.com/neovim/neovim/pull/19677
+--   --   else
+--   --     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+--   --   end
+--   -- end
 
-  -- -- disable formatexpr for python to get `gq` mapping working again
-  -- -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1259
-  -- if client.name == "jedi_language_server" then
-  --   vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
-  -- end
+--   -- -- disable formatexpr for python to get `gq` mapping working again
+--   -- -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1259
+--   -- if client.name == "jedi_language_server" then
+--   --   vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+--   -- end
 
-  -- disable lsp formatexpr for all language servers
-  -- use gw instead, https://github.com/neovim/neovim/pull/22615
-  -- vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+--   -- disable lsp formatexpr for all language servers
+--   -- use gw instead, https://github.com/neovim/neovim/pull/22615
+--   -- vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
 
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+--   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+--   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  local opts = { noremap = true, silent = true }
+--   local opts = { noremap = true, silent = true }
 
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format { async = true }' ]]
-  buf_set_keymap('n', '<leader>n', ':Format<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+--   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format { async = true }' ]]
+--   buf_set_keymap('n', '<leader>n', ':Format<CR>', opts)
+--   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+--   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+--   buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+--   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+--   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
-  require "lsp_signature".on_attach(signature_setup, bufnr)
-end
+--   -- require "lsp_signature".on_attach(signature_setup, bufnr)
+-- end
 
--- nvim-cmp supports additional completion capabilities
+-- -- nvim-cmp supports additional completion capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- jedi
-require("lspconfig").jedi_language_server.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    -- available options https://github.com/pappasam/jedi-language-server#configuration
-    -- disable diagnostics, should be disabled by default since 0.39 but seems to not work
-    -- https://github.com/pappasam/jedi-language-server/issues/187
-    init_options = {
-        diagnostics = {
-          enable = false
-        }
+-- require("lspconfig").jedi_language_server.setup({
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     -- available options https://github.com/pappasam/jedi-language-server#configuration
+--     -- disable diagnostics, should be disabled by default since 0.39 but seems to not work
+--     -- https://github.com/pappasam/jedi-language-server/issues/187
+--     init_options = {
+--         diagnostics = {
+--           enable = false
+--         }
+--     }
+-- })
+
+-- Show diagnostics in a floating window
+-- vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+-- Move to the previous diagnostic
+vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+-- Move to the next diagnostic
+vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+
+vim.keymap.set('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<cr>')
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local bufmap = function(mode, lhs, rhs)
+      local opts = {buffer = event.buf}
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    -- Display documentation of the symbol under the cursor
+    bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+
+    -- Jump to the definition
+    bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+
+    -- Jump to declaration
+    bufmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+
+    -- Lists all the implementations for the symbol under the cursor
+    bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+
+    -- Jumps to the definition of the type symbol
+    bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+
+    -- Lists all the references
+    bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+
+    -- Displays a function's signature information
+    bufmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+
+    -- Renames all references to the symbol under the cursor
+    bufmap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>')
+
+    -- Format current file
+    bufmap('n', '<leader>n', '<cmd>lua vim.lsp.buf.format({ async = true })<cr>')
+
+    -- Selects a code action available at the current cursor position
+    bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  end
+})
+
+-- pyright
+require("lspconfig").pyright.setup({
+    capabilities = capabilities
+})
+
+-- tsserver
+require("lspconfig").tsserver.setup({
+  capabilities = capabilities,
+  settings = {
+    completions = {
+      completeFunctionCalls = true
     }
+  }
 })
 
 -- null ts
 require("null-ls").setup({
     debug = false,
-    on_attach = on_attach,
     sources = {
         require("null-ls").builtins.diagnostics.flake8,
         require("null-ls").builtins.diagnostics.luacheck,
@@ -136,7 +189,9 @@ require("null-ls").setup({
 })
 
 -- terraform-ls
-require'lspconfig'.terraformls.setup{}
+require("lspconfig").terraformls.setup({
+    capabilities = capabilities
+})
 
 -- treesitter
 require'nvim-treesitter.configs'.setup {
@@ -144,7 +199,7 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {
       "python",
       "bash",
-      "dockerfile",
+      -- "dockerfile",
       "javascript",
       "json",
       "lua",
@@ -194,9 +249,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- lsp-signature
-require "lsp_signature".setup{
-    hint_enable = false,
-}
+-- require "lsp_signature".setup{
+--     hint_enable = false,
+-- }
 
 -- grammarly
 -- require'lspconfig'.grammarly.setup{

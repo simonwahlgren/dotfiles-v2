@@ -61,6 +61,12 @@ def dump_obj(self, obj_name):
         print("Content dumped to:", f.name)
 
 
+def decode_jwt(self, token):
+    import jwt
+    print(jwt.decode(token, options={"verify_signature": False}))
+
+
+
 class Config(pdb.DefaultConfig):
     sticky_by_default = True
     use_pygments = True
@@ -72,6 +78,7 @@ class Config(pdb.DefaultConfig):
         super().setup(pdb)
         Pdb = pdb.__class__
         Pdb.do_dump = dump_obj
+        Pdb.do_decode_jwt = decode_jwt
 
 
 # Save history across sessions
